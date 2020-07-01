@@ -6,8 +6,8 @@ export default class UrlParser {
     return QueryString.parse(queryString)
   }
 
-  private static getPathParams<T>(
-    matchedRoute: Route<T>,
+  private static getPathParams(
+    matchedRoute: Route,
     url: string
   ): { [key: string]: string } {
     let pathValues: string[] = matchedRoute.regexpPath!.exec(url) as string[]
@@ -21,8 +21,8 @@ export default class UrlParser {
     return urlParams
   }
 
-  public static createRouteObject<T>(
-    matchedRoutes: Route<T>[],
+  public static createRouteObject(
+    matchedRoutes: Route[],
     url: string
   ): RouteObject {
     const depths: number[] = matchedRoutes.map(

@@ -1,6 +1,6 @@
 import { Route } from '../Router/types';
-export default class HashBasedRouting<T> {
+export default class HashBasedRouting {
     private routes;
-    constructor(routes: Route<T>[]);
-    parse(url: string): Route<T>[];
+    constructor(routes: Route[]);
+    parse(url: string): Route[];
 }

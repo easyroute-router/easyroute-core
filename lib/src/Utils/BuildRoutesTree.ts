@@ -1,7 +1,7 @@
 import { Route } from '../Router/types'
 
-export function getRoutesTreeChain<T>(allRoutes: Route<T>[], currentId: string) {
-  const tree: Route<T>[] = []
+export function getRoutesTreeChain(allRoutes: Route[], currentId: string) {
+  const tree: Route[] = []
   let currentSeekingIds: string | null = currentId
   const currentRoute = allRoutes.find((route) => route.id === currentSeekingIds)
   do {

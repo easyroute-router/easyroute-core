@@ -11,24 +11,24 @@ import Observable from '../Utils/Observable'
 import UrlParser from '../Services/UrlParser'
 import SilentModeService from '../Services/SilentModeService'
 
-export default class Router<T> {
-  private pathService: PathService<T> = new PathService()
-  private readonly routes: Route<T>[] = []
-  private parser: HashParser<T> | null = null
+export default class Router {
+  private pathService = new PathService()
+  private readonly routes: Route[] = []
+  private parser: HashParser | null = null
   private ignoreEvents = false
   private silentControl: SilentModeService | null = null
 
   public beforeEach: Callback | null = null
   public afterEach: Callback | null = null
 
-  public currentMatched = new Observable<Route<T>[]>([])
+  public currentMatched = new Observable<Route[]>([])
   public currentRouteData = new Observable<RouteObject>({
     params: {},
     query: {},
     name: ''
   })
 
-  constructor(private settings: RouterSettings<T>) {
+  constructor(private settings: RouterSettings) {
     this.routes = this.pathService.getPathInformation(settings.routes)
     setTimeout(() => {
       this.setParser()
@@ -75,14 +75,14 @@ export default class Router<T> {
     }
   }
 
-  private getTo(matched: Route<T>[], url: string): RouteObject {
+  private getTo(matched: Route[], url: string): RouteObject {
     const depths: number[] = matched.map(
       (route) => route.nestingDepth as number
     )
     const maxDepth = Math.max(...depths)
     const currentRoute = matched.find(
       (route) => route.nestingDepth === maxDepth
-    ) as Route<T>
+    ) as Route
     if (!currentRoute)
       return {
         params: {},
@@ -97,14 +97,14 @@ export default class Router<T> {
         params: {},
         query: {}
       }
-    const current: Route<T>[] = this.currentMatched.getValue
+    const current: Route[] = this.currentMatched.getValue
     const depths: number[] = current.map(
       (route) => route.nestingDepth as number
     )
     const maxDepth = Math.max(...depths)
     const currentRoute = current.find(
       (route) => route.nestingDepth === maxDepth
-    ) as Route<T>
+    ) as Route
     if (!currentRoute)
       return {
         params: {},
@@ -157,7 +157,7 @@ export default class Router<T> {
     await this.parseRoute(url)
   }
 
-  private async beforeHook(to: Route<T>, from: Route<T>) {
+  private async beforeHook(to: Route, from: Route) {
     return new Promise((resolve) => {
       const next = (command?: HookCommand) => {
         if (command !== null && command !== undefined) {
@@ -175,7 +175,7 @@ export default class Router<T> {
     })
   }
 
-  private afterHook(to: Route<T>, from: Route<T>) {
+  private afterHook(to: Route, from: Route) {
     this.afterEach && this.afterEach(to, from)
   }
 
