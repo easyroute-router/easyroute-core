@@ -1,13 +1,13 @@
 import { Key } from 'path-to-regexp'
 import { ParsedQuery } from 'query-string'
 
-export interface Route {
+export interface Route<T> {
   path?: string
-  component?: () => void
+  component?: T
   name?: string
   regexpPath?: RegExp
   pathKeys?: Key[]
-  children?: Route[]
+  children?: Route<T>[]
   nestingDepth?: number
   id?: string
   parentId?: string | null
@@ -22,10 +22,10 @@ export interface RouteObject {
   meta?: any
 }
 
-export interface RouterSettings {
+export interface RouterSettings<T> {
   mode: string
   base?: string
-  routes: Route[]
+  routes: Route<T>[]
 }
 
 export type HookCommand = string | false | true

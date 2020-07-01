@@ -2,18 +2,18 @@ import { Route } from '../Router/types'
 import { getRoutesTreeChain } from '../Utils/BuildRoutesTree'
 import uniqBy from 'lodash/uniqBy'
 
-export default class HashBasedRouting {
-  constructor(private routes: Route[]) {}
+export default class HashBasedRouting<T> {
+  constructor(private routes: Route<T>[]) {}
 
-  public parse(url: string): Route[] {
-    const matchedRoutes: Route[] = this.routes.reduce(
-      (total: Route[], current: Route) => {
+  public parse(url: string): Route<T>[] {
+    const matchedRoutes: Route<T>[] = this.routes.reduce(
+      (total: Route<T>[], current: Route<T>) => {
         if (url.match(current.regexpPath as RegExp)) total.push(current)
         return total
       },
       []
     )
-    let allMatched: Route[] = []
+    let allMatched: Route<T>[] = []
     matchedRoutes.forEach((route) => {
       allMatched = [
         ...allMatched,

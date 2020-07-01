@@ -3,13 +3,13 @@ import { Route } from '../Router/types'
 import generateId from '../Utils/IdGenerator'
 import urljoin from 'url-join'
 
-export default class PathService {
+export default class PathService<T> {
   private readonly pathToRegexp: any = pathToRegexp
 
-  private parsePaths(routes: Route[]): Route[] {
-    const allRoutes: Route[] = []
+  private parsePaths(routes: Route<T>[]): Route<T>[] {
+    const allRoutes: Route<T>[] = []
     const recursive = (
-      routesArray: Route[],
+      routesArray: Route<T>[],
       parentPath = '',
       nestingDepth = 0,
       parentId: string | null = null
@@ -38,8 +38,8 @@ export default class PathService {
     return allRoutes
   }
 
-  public getPathInformation(routes: Route[]): Route[] {
-    const allRoutes: Route[] = this.parsePaths(routes)
+  public getPathInformation(routes: Route<T>[]): Route<T>[] {
+    const allRoutes: Route<T>[] = this.parsePaths(routes)
     return allRoutes.map((route) => {
       const keysArray: Key[] = []
       route.regexpPath = this.pathToRegexp(route.path, keysArray)

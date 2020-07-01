@@ -1,6 +1,6 @@
 import { Route, RouterSettings, Callback, RouteObject } from './types';
 import Observable from '../Utils/Observable';
-export default class Router {
+export default class Router<T> {
     private settings;
     private pathService;
     private readonly routes;
@@ -9,9 +9,9 @@ export default class Router {
     private silentControl;
     beforeEach: Callback | null;
     afterEach: Callback | null;
-    currentMatched: Observable<Route[]>;
+    currentMatched: Observable<Route<T>[]>;
     currentRouteData: Observable<RouteObject>;
-    constructor(settings: RouterSettings);
+    constructor(settings: RouterSettings<T>);
     private setParser;
     private getTo;
     private getFrom;
