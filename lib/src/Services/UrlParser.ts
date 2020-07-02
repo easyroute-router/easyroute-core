@@ -10,7 +10,7 @@ export default class UrlParser {
     matchedRoute: Route,
     url: string
   ): { [key: string]: string } {
-    let pathValues: string[] = matchedRoute.regexpPath!.exec(url) as string[]
+    let pathValues: string[] = matchedRoute.regexpPath.exec(url) as string[]
     pathValues = pathValues.slice(1, pathValues.length)
     const urlParams: { [key: string]: string } = {}
     for (const pathPart in pathValues) {

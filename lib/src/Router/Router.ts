@@ -157,7 +157,7 @@ export default class Router {
     await this.parseRoute(url)
   }
 
-  private async beforeHook(to: Route, from: Route) {
+  private async beforeHook(to: RouteObject, from: RouteObject) {
     return new Promise((resolve) => {
       const next = (command?: HookCommand) => {
         if (command !== null && command !== undefined) {
@@ -175,7 +175,7 @@ export default class Router {
     })
   }
 
-  private afterHook(to: Route, from: Route) {
+  private afterHook(to: RouteObject, from: RouteObject) {
     this.afterEach && this.afterEach(to, from)
   }
 

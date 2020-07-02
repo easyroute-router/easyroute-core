@@ -1,15 +1,18 @@
 import { Key } from 'path-to-regexp';
 import { ParsedQuery } from 'query-string';
+declare namespace EasyrouteComponent {
+    type PageComponent = any;
+}
 export interface Route {
-    path?: string;
-    component?: () => void;
+    path: string;
+    component: EasyrouteComponent.PageComponent;
     name?: string;
-    regexpPath?: RegExp;
-    pathKeys?: Key[];
-    children?: Route[];
-    nestingDepth?: number;
-    id?: string;
-    parentId?: string | null;
+    regexpPath: RegExp;
+    pathKeys: Key[];
+    children: Route[];
+    nestingDepth: number;
+    id: string;
+    parentId: string | null;
     meta?: any;
 }
 export interface RouteObject {
@@ -28,3 +31,4 @@ export interface RouterSettings {
 }
 export declare type HookCommand = string | false | true;
 export declare type Callback = (...args: any[]) => void;
+export {};
