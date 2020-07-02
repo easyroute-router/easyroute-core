@@ -1,13 +1,9 @@
 import { Key } from 'path-to-regexp'
 import { ParsedQuery } from 'query-string'
 
-declare namespace EasyrouteComponent {
-  type PageComponent = any
-}
-
 export interface Route {
   path: string
-  component: EasyrouteComponent.PageComponent
+  component: any
   name?: string
   regexpPath: RegExp
   pathKeys: Key[]
