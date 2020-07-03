@@ -6,9 +6,9 @@ import {
   RouteObject
 } from './types'
 import PathService from '../Services/PathService'
-import HashParser from '../Parsers/HashParser'
+import HashParser from '../Services/PathParser'
 import Observable from '../Utils/Observable'
-import UrlParser from '../Services/UrlParser'
+import UrlParametersParser from '../Services/UrlParametersParser'
 import SilentModeService from '../Services/SilentModeService'
 
 export default class Router {
@@ -88,7 +88,7 @@ export default class Router {
         params: {},
         query: {}
       }
-    return Object.freeze(UrlParser.createRouteObject([currentRoute], url))
+    return Object.freeze(UrlParametersParser.createRouteObject([currentRoute], url))
   }
 
   private getFrom(): RouteObject {
@@ -112,7 +112,7 @@ export default class Router {
       }
     const url = this.currentRouteData.getValue.fullPath
     return Object.freeze(
-      UrlParser.createRouteObject([currentRoute], url as string)
+      UrlParametersParser.createRouteObject([currentRoute], url as string)
     )
   }
 

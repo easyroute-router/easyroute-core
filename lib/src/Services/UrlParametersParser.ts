@@ -1,7 +1,7 @@
 import QueryString, { ParsedQuery } from 'query-string'
 import { Route, RouteObject } from '../Router/types'
 
-export default class UrlParser {
+export default class UrlParametersParser {
   private static getQueryParams(queryString: string): ParsedQuery {
     return QueryString.parse(queryString)
   }
@@ -34,8 +34,8 @@ export default class UrlParser {
     )
     const [pathString, queryString]: string[] = url.split('?')
     if (currentMatched) {
-      const pathParams = UrlParser.getPathParams(currentMatched, pathString)
-      const queryParams = UrlParser.getQueryParams(queryString)
+      const pathParams = UrlParametersParser.getPathParams(currentMatched, pathString)
+      const queryParams = UrlParametersParser.getQueryParams(queryString)
       return {
         params: pathParams,
         query: queryParams,
