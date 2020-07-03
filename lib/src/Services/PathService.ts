@@ -1,20 +1,21 @@
 import { pathToRegexp, Key } from 'path-to-regexp'
-import { Route } from '../Router/types'
+import {Route, RouteSettingsObject} from '../Router/types'
 import generateId from '../Utils/IdGenerator'
 import urljoin from 'url-join'
 
 export default class PathService {
   private readonly pathToRegexp: any = pathToRegexp
 
-  private parsePaths(routes: Route[]): Route[] {
+  private parsePaths(routes: RouteSettingsObject[]): Route[] {
     const allRoutes: Route[] = []
     const recursive = (
-      routesArray: Route[],
+      routesArray: RouteSettingsObject[],
       parentPath = '',
       nestingDepth = 0,
       parentId: string | null = null
     ) => {
-      routesArray.forEach((el) => {
+      routesArray.forEach((_el) => {
+        const el: any = {}
         if (parentPath.length) {
           parentPath = parentPath.replace(/\*/g, '')
           let elPath = el.path
@@ -28,7 +29,7 @@ export default class PathService {
         }
         el.parentId = parentId
         el.id = generateId()
-        allRoutes.push(el)
+        allRoutes.push(el as Route)
         if (el.children && el.children.length) {
           recursive(el.children, el.path, nestingDepth + 1, el.id)
         }
@@ -38,7 +39,7 @@ export default class PathService {
     return allRoutes
   }
 
-  public getPathInformation(routes: Route[]): Route[] {
+  public getPathInformation(routes: RouteSettingsObject[]): Route[] {
     const allRoutes: Route[] = this.parsePaths(routes)
     return allRoutes.map((route) => {
       const keysArray: Key[] = []
