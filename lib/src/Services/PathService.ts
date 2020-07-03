@@ -1,5 +1,5 @@
 import { pathToRegexp, Key } from 'path-to-regexp'
-import {Route, RouteSettingsObject} from '../Router/types'
+import { Route, RouteSettingsObject } from '../Router/types'
 import generateId from '../Utils/IdGenerator'
 import urljoin from 'url-join'
 
@@ -15,7 +15,7 @@ export default class PathService {
       parentId: string | null = null
     ) => {
       routesArray.forEach((_el) => {
-        const el: any = {}
+        const el: any = { ..._el }
         if (parentPath.length) {
           parentPath = parentPath.replace(/\*/g, '')
           let elPath = el.path

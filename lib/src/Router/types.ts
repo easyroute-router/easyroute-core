@@ -8,7 +8,7 @@ export interface RouteSettingsObject {
   children?: RouteSettingsObject[]
   meta?: any
 }
-export interface Route extends RouteSettingsObject{
+export interface Route extends RouteSettingsObject {
   regexpPath: RegExp
   pathKeys: Key[]
   nestingDepth: number

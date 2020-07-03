@@ -88,7 +88,9 @@ export default class Router {
         params: {},
         query: {}
       }
-    return Object.freeze(UrlParametersParser.createRouteObject([currentRoute], url))
+    return Object.freeze(
+      UrlParametersParser.createRouteObject([currentRoute], url)
+    )
   }
 
   private getFrom(): RouteObject {

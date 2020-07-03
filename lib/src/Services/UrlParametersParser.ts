@@ -34,7 +34,10 @@ export default class UrlParametersParser {
     )
     const [pathString, queryString]: string[] = url.split('?')
     if (currentMatched) {
-      const pathParams = UrlParametersParser.getPathParams(currentMatched, pathString)
+      const pathParams = UrlParametersParser.getPathParams(
+        currentMatched,
+        pathString
+      )
       const queryParams = UrlParametersParser.getQueryParams(queryString)
       return {
         params: pathParams,
