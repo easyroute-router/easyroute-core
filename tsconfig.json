@@ -17,7 +17,8 @@
     "downlevelIteration": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "lib": ["es5", "es6", "dom", "dom.iterable"]
   },
   "include": [
     "lib/src/**/*"

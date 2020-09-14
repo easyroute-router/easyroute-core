@@ -10,6 +10,10 @@ TL;DR Features:
 * Programmatic navigation
 * Named routes
 * Hash, history and silent modes
+* Functions to calculate transitions durations
+
+#### Documentation
+Coming soon
 
 #### This is framework-agnostic library
 You can't use it without special bindings for frameworks and libraries.
