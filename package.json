@@ -1,5 +1,5 @@
 {
-  "name": "easyroute",
+  "name": "@lyohaplotinka/easyroute",
   "version": "1.0.0",
   "description": "Framework-agnostic router for JavaScript single-page applications in style of Vue Router",
   "main": "lib/dist/index.js",
