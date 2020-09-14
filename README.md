@@ -20,7 +20,7 @@ resolving current route, etc.
 For every framework and library you should have
 router outlet and router link components.
 
-Currently available: 
+#### Currently available: 
 
 1. [Svelte Easyroute](https://github.com/lyohaplotinka/svelte-easyroute/) - 
 bindings for Svelte 3 [(NPM)](https://www.npmjs.com/package/svelte-easyroute)

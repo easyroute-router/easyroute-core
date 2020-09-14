@@ -14,5 +14,5 @@ module.exports = {
         '@typescript-eslint/no-non-null-assertion': 'off',
         '@typescript-eslint/no-explicit-any': 'off'
     },
-    ignorePatterns: ['**/dist/**', '**/config/**', '**/public/**']
+    ignorePatterns: ['**/dist/**', '**/config/**', '**/public/**', '**/__tests__/**']
 }
