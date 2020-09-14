@@ -12,8 +12,15 @@ TL;DR Features:
 * Hash, history and silent modes
 
 #### This is framework-agnostic library
-You can't use it without special bindings for frameworks and libraries.  
+You can't use it without special bindings for frameworks and libraries.
+This library contains only logic part of router: handling 
+hash or url changes, routes tree generation, 
+resolving current route, etc.
+
+For every framework and library you should have
+router outlet and router link components.
+
 Currently available: 
 
 1. [Svelte Easyroute](https://github.com/lyohaplotinka/svelte-easyroute/) - 
-bindings for Svelte 3
+bindings for Svelte 3 [(NPM)](https://www.npmjs.com/package/svelte-easyroute)

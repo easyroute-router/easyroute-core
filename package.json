@@ -1,11 +1,11 @@
 {
   "name": "easyroute",
   "version": "1.0.0",
-  "description": "Framework-agnostic router for JavaScript single-page applications",
+  "description": "Framework-agnostic router for JavaScript single-page applications in style of Vue Router",
   "main": "lib/dist/index.js",
   "scripts": {
     "test": "jest",
-    "build": "tsc",
+    "build": "rollup -c",
     "lint": "eslint '*/**/*.{js,ts}' --fix"
   },
   "repository": {
@@ -28,6 +28,7 @@
   "homepage": "https://github.com/lyohaplotinka/easyroute#readme",
   "devDependencies": {
     "@babel/preset-env": "^7.10.4",
+    "@rollup/plugin-typescript": "^6.0.0",
     "@types/jest": "^26.0.0",
     "@types/lodash": "^4.14.155",
     "@types/node": "^14.0.13",
@@ -43,14 +44,17 @@
     "husky": "^4.2.5",
     "jest": "^26.1.0",
     "prettier": "^2.0.5",
-    "typescript": "^3.9.6"
-  },
-  "dependencies": {
-    "lodash": "^4.17.19",
+    "rollup": "^2.26.11",
+    "rollup-plugin-cleaner": "^1.0.0",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "tslib": "^2.0.1",
+    "typescript": "^3.9.7",
     "path-to-regexp": "^6.1.0",
     "query-string": "^6.13.1",
     "url-join": "^4.0.1"
   },
+  "dependencies": {},
   "husky": {
     "hooks": {
       "pre-commit": "npm run lint"

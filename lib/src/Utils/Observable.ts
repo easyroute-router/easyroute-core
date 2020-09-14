@@ -1,9 +1,9 @@
 import generateId from './IdGenerator'
 
-type ObservableListener<T> = (value: T) => void
+type ObservableListener = (value: any) => void
 
 export default class Observable<T> {
-  private _subscribersQueue: { [key: string]: ObservableListener<T> } = {}
+  private _subscribersQueue: { [key: string]: ObservableListener } = {}
 
   constructor(private value: T) {}
 
@@ -11,9 +11,10 @@ export default class Observable<T> {
     return this.value
   }
 
-  public subscribe(listener: ObservableListener<T>) {
+  public subscribe(listener: ObservableListener) {
     const id = generateId()
     this._subscribersQueue[id] = listener
+    listener(this.getValue)
     return () => {
       delete this._subscribersQueue[id]
     }

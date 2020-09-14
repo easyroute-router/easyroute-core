@@ -6,9 +6,9 @@ import {
   RouteObject
 } from './types'
 import PathService from '../Services/PathService'
-import HashParser from '../Services/PathParser'
+import HashParser from '../Parsers/HashParser'
 import Observable from '../Utils/Observable'
-import UrlParametersParser from '../Services/UrlParametersParser'
+import UrlParser from '../Services/UrlParser'
 import SilentModeService from '../Services/SilentModeService'
 
 export default class Router {
@@ -88,9 +88,7 @@ export default class Router {
         params: {},
         query: {}
       }
-    return Object.freeze(
-      UrlParametersParser.createRouteObject([currentRoute], url)
-    )
+    return Object.freeze(UrlParser.createRouteObject([currentRoute], url))
   }
 
   private getFrom(): RouteObject {
@@ -114,7 +112,7 @@ export default class Router {
       }
     const url = this.currentRouteData.getValue.fullPath
     return Object.freeze(
-      UrlParametersParser.createRouteObject([currentRoute], url as string)
+      UrlParser.createRouteObject([currentRoute], url as string)
     )
   }
 
@@ -159,7 +157,7 @@ export default class Router {
     await this.parseRoute(url)
   }
 
-  private async beforeHook(to: RouteObject, from: RouteObject) {
+  private async beforeHook(to: Route, from: Route) {
     return new Promise((resolve) => {
       const next = (command?: HookCommand) => {
         if (command !== null && command !== undefined) {
@@ -177,7 +175,7 @@ export default class Router {
     })
   }
 
-  private afterHook(to: RouteObject, from: RouteObject) {
+  private afterHook(to: Route, from: Route) {
     this.afterEach && this.afterEach(to, from)
   }
 
