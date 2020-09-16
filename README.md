@@ -28,3 +28,4 @@ router outlet and router link components.
 
 1. [Svelte Easyroute](https://github.com/lyohaplotinka/svelte-easyroute/) - 
 bindings for Svelte 3 [(NPM)](https://www.npmjs.com/package/svelte-easyroute)
+2. [React Easyroute](https://github.com/lyohaplotinka/react-easyroute/) - bindings for React [(NPM)](https://www.npmjs.com/package/react-easyroute)
