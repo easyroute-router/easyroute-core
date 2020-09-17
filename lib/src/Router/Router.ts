@@ -133,12 +133,19 @@ export default class Router {
 
   private async downloadDynamicComponents(matchedRoutes: Route[]) {
     const nonDynamic = matchedRoutes.map(async (route) => {
-      const isAsync = !Boolean(route.component.prototype)
+      const isAsync = /(\.then)/i.test(route.component.toString())
       if (!isAsync) return route
       else {
-        const component = await route.component()
-        route.component = component.default
-        return route
+        try {
+          const component = await route.component()
+          route.component = component.default
+          return route
+        } catch (e) {
+          console.warn(
+            `[Easyroute] caught an error while trying to download async component: "${e.message}"`
+          )
+          return route
+        }
       }
     })
     return await Promise.all(nonDynamic)
