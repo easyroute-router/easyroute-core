@@ -131,6 +131,19 @@ export default class Router {
     }
   }
 
+  private async downloadDynamicComponents(matchedRoutes: Route[]) {
+    const nonDynamic = matchedRoutes.map(async (route) => {
+      const isAsync = !Boolean(route.component.prototype)
+      if (!isAsync) return route
+      else {
+        const component = await route.component()
+        route.component = component.default
+        return route
+      }
+    })
+    return await Promise.all(nonDynamic)
+  }
+
   public async parseRoute(url: string, doPushState = true) {
     if (this.mode === 'hash' && url.includes('#')) url = url.replace('#', '')
     if (this.mode === 'history' && url.includes('#')) url = url.replace('#', '')
@@ -148,7 +161,7 @@ export default class Router {
     if (!allowNext) return
     this.changeUrl(PathService.constructUrl(url, this.base), doPushState)
     this.currentRouteData.setValue(to)
-    this.currentMatched.setValue(matched)
+    this.currentMatched.setValue(await this.downloadDynamicComponents(matched))
     this.afterHook(to, from)
   }
 

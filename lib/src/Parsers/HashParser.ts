@@ -1,6 +1,6 @@
 import { Route } from '../Router/types'
 import { getRoutesTreeChain } from '../Utils/BuildRoutesTree'
-import { uniqueById } from '../Utils/uniqueBy'
+import { uniqueByIdAndNestingDepth } from '../Utils/uniqueBy'
 
 export default class HashBasedRouting {
   constructor(private routes: Route[]) {}
@@ -20,7 +20,7 @@ export default class HashBasedRouting {
         ...getRoutesTreeChain(this.routes, route.id as string)
       ]
     })
-    const unique = uniqueById(allMatched)
+    const unique = uniqueByIdAndNestingDepth(allMatched)
     if (!unique) {
       throw new Error('[Easyroute] No routes matched')
     }

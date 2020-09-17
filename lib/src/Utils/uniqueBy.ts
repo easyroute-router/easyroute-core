@@ -1,8 +1,14 @@
 import { Route } from '../Router/types'
 
-export function uniqueById(routesArray: Route[]) {
+export function uniqueByIdAndNestingDepth(routesArray: Route[]) {
   const uniqueIds = [...new Set(routesArray.map((route) => route.id))]
-  return uniqueIds.map(
+  const uniqueDepths = [
+    ...new Set(routesArray.map((route) => route.nestingDepth))
+  ]
+  const uniqueById = uniqueIds.map(
     (id) => routesArray.find((route) => route.id === id) as Route
+  )
+  return uniqueDepths.map(
+    (depth) => uniqueById.find((route) => route.nestingDepth === depth) as Route
   )
 }
