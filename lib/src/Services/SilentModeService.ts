@@ -1,4 +1,4 @@
-import { RouteObject } from '../Router/types'
+import { RouteObject } from '../types'
 
 export default class SilentModeService {
   private history: RouteObject[] = []

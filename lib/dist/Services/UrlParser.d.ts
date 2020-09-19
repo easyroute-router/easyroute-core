@@ -1,4 +1,4 @@
-import { Route, RouteObject } from '../Router/types';
+import { Route, RouteObject } from '../types';
 export default class UrlParser {
     private static getQueryParams;
     private static getPathParams;

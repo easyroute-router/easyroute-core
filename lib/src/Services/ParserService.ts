@@ -1,8 +1,8 @@
-import { Route } from '../Router/types'
+import { Route } from '../types'
 import { getRoutesTreeChain } from '../Utils/BuildRoutesTree'
 import { uniqueByIdAndNestingDepth } from '../Utils/uniqueBy'
 
-export default class HashBasedRouting {
+export default class ParserService {
   constructor(private routes: Route[]) {}
 
   public parse(url: string): Route[] {

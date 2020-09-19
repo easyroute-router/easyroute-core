@@ -1,4 +1,4 @@
-import { Route } from '../Router/types'
+import { Route } from '../types'
 
 export function getRoutesTreeChain(allRoutes: Route[], currentId: string) {
   const tree: Route[] = []

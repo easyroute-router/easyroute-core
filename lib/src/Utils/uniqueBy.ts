@@ -1,4 +1,4 @@
-import { Route } from '../Router/types'
+import { Route } from '../types'
 
 export function uniqueByIdAndNestingDepth(routesArray: Route[]) {
   const uniqueIds = [...new Set(routesArray.map((route) => route.id))]

@@ -1,5 +1,5 @@
-import { Route } from '../Router/types';
-export default class HashBasedRouting {
+import { Route } from '../types';
+export default class ParserService {
     private routes;
     constructor(routes: Route[]);
     parse(url: string): Route[];
