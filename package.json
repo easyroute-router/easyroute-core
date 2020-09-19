@@ -59,7 +59,7 @@
   "dependencies": {},
   "husky": {
     "hooks": {
-      "pre-commit": "npm run test:lint && git add"
+      "pre-commit": "npm run test:lint && git add ."
     }
   }
 }
