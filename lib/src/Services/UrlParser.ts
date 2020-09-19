@@ -1,5 +1,5 @@
 import QueryString, { ParsedQuery } from 'query-string'
-import { Route, RouteObject } from '../Router/types'
+import { Route, RouteObject } from '../types'
 
 export default class UrlParser {
   private static getQueryParams(queryString: string): ParsedQuery {

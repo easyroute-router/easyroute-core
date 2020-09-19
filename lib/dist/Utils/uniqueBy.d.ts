@@ -1,2 +1,2 @@
-import { Route } from '../Router/types';
-export declare function uniqueById(routesArray: Route[]): Route[];
+import { Route } from '../types';
+export declare function uniqueByIdAndNestingDepth(routesArray: Route[]): Route[];

@@ -1,2 +1,2 @@
-import { Route } from '../Router/types';
+import { Route } from '../types';
 export declare function getRoutesTreeChain(allRoutes: Route[], currentId: string): Route[];

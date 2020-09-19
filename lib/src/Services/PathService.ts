@@ -1,5 +1,5 @@
 import { pathToRegexp, Key } from 'path-to-regexp'
-import { Route } from '../Router/types'
+import { Route } from '../types'
 import generateId from '../Utils/IdGenerator'
 import urljoin from 'url-join'
 

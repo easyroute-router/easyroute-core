@@ -1,4 +1,4 @@
-import { Route } from '../Router/types';
+import { Route } from '../types';
 export default class PathService {
     private readonly pathToRegexp;
     private parsePaths;
