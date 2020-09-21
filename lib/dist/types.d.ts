@@ -1,9 +1,13 @@
 import { Key } from 'path-to-regexp';
 import { ParsedQuery } from 'query-string';
 export declare type RouteComponent = any;
+export declare type NamedComponentsSet = {
+    [key: string]: RouteComponent;
+};
 export interface Route {
     path?: string;
     component?: RouteComponent;
+    components?: NamedComponentsSet;
     name?: string;
     regexpPath?: RegExp;
     pathKeys?: Key[];
