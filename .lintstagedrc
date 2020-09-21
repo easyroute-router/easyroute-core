@@ -1,0 +1,6 @@
+{
+    "*": "npm run test",
+    "lib/src/**/*.ts": [
+        "npm run lint"
+    ]
+}

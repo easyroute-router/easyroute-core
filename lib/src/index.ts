@@ -3,7 +3,8 @@ import {
   RouterSettings,
   HookCommand,
   Callback,
-  RouteObject
+  RouteObject,
+  RouterHook
 } from './types'
 import PathService from './Services/PathService'
 import ParserService from './Services/ParserService'
@@ -20,7 +21,7 @@ export default class Router {
   private ignoreEvents = false
   private silentControl: SilentModeService | null = null
 
-  public beforeEach: Callback | null = null
+  public beforeEach: RouterHook | null = null
   public afterEach: Callback | null = null
 
   public currentMatched = new Observable<Route[]>([])
@@ -127,6 +128,24 @@ export default class Router {
     return await Promise.all(nonDynamic)
   }
 
+  private async runAllIndividualHooks(
+    matched: Route[],
+    to: Route,
+    from: Route
+  ) {
+    for await (const component of matched) {
+      const allow = await this.executeBeforeHook(
+        to,
+        from,
+        component.beforeEnter as RouterHook
+      )
+      if (!allow) {
+        return false
+      }
+    }
+    return true
+  }
+
   public async parseRoute(url: string, doPushState = true) {
     if (this.mode === 'hash' && url.includes('#')) url = url.replace('#', '')
     if (this.mode === 'history' && url.includes('#')) url = url.replace('#', '')
@@ -140,7 +159,13 @@ export default class Router {
     if (this.silentControl && doPushState) {
       this.silentControl.appendHistory(to)
     }
-    const allowNext = await this.beforeHook(to, from)
+    const allowNextGlobal = await this.executeBeforeHook(
+      to,
+      from,
+      this.beforeEach as RouterHook
+    )
+    const allowNextLocal = await this.runAllIndividualHooks(matched, to, from)
+    const allowNext = allowNextGlobal && allowNextLocal
     if (!allowNext) return
     this.changeUrl(PathService.constructUrl(url, this.base), doPushState)
     this.currentRouteData.setValue(to)
@@ -153,21 +178,21 @@ export default class Router {
     await this.parseRoute(url)
   }
 
-  private async beforeHook(to: Route, from: Route) {
-    return new Promise((resolve) => {
+  private async executeBeforeHook(to: Route, from: Route, hook: RouterHook) {
+    return new Promise(async (resolve) => {
       const next = (command?: HookCommand) => {
         if (command !== null && command !== undefined) {
-          if (command === false) {
-            resolve(false)
-          }
+          if (command === false) resolve(false)
           if (typeof command === 'string') {
             this.parseRoute(command)
             resolve(false)
           }
-        } else resolve(true)
+        } else {
+          resolve(true)
+        }
       }
-      if (!this.beforeEach) resolve(true)
-      else this.beforeEach(to, from, next)
+      if (!hook) resolve(true)
+      else await hook(to, from, next)
     })
   }
 

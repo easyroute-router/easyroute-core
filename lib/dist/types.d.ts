@@ -12,6 +12,7 @@ export interface Route {
     id?: string;
     parentId?: string | null;
     meta?: any;
+    beforeEnter?: RouterHook;
 }
 export interface RouteObject {
     params: {
@@ -29,3 +30,4 @@ export interface RouterSettings {
 }
 export declare type HookCommand = string | false | true;
 export declare type Callback = (...args: any[]) => void;
+export declare type RouterHook = (to: Route, from: Route, next: (command?: HookCommand) => void) => void;

@@ -14,6 +14,7 @@ export interface Route {
   id?: string
   parentId?: string | null
   meta?: any
+  beforeEnter?: RouterHook
 }
 
 export interface RouteObject {
@@ -32,3 +33,8 @@ export interface RouterSettings {
 
 export type HookCommand = string | false | true
 export type Callback = (...args: any[]) => void
+export type RouterHook = (
+  to: Route,
+  from: Route,
+  next: (command?: HookCommand) => void
+) => void
