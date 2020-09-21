@@ -1,3 +1,9 @@
+### v1.1.0
+* `beforeEnter` hook for each route - individual hooks yeah!
+* named routes support via `components` key in route object;
+* methods for dynamic routes downloading are now in separated modules;
+* implemented `lint-staged`.
+
 ### v1.0.2
 * Core is now downloading dynamic modules by itself, without bindings outlets;
 * fixed premature after hook trigger when dynamic component is downloading;

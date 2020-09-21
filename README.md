@@ -9,6 +9,8 @@ TL;DR Features:
 * Nested routes
 * Programmatic navigation
 * Named routes
+* Named views (outlets)
+* Global and individual navigation hooks
 * Hash, history and silent modes
 * Functions to calculate transitions durations
 
