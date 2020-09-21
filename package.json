@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "build": "rollup -c",
-    "dev": "rollup -c -w",
+    "dev": "rollup --mode=development -c -w",
     "lint": "eslint '*/**/*.{js,ts}' --fix",
     "test:lint": "npm run lint && npm run test"
   },
@@ -45,21 +45,22 @@
     "eslint-plugin-prettier": "^3.1.4",
     "husky": "^4.2.5",
     "jest": "^26.1.0",
+    "lint-staged": "^10.4.0",
+    "path-to-regexp": "^6.1.0",
     "prettier": "^2.0.5",
+    "query-string": "^6.13.1",
     "rollup": "^2.26.11",
     "rollup-plugin-cleaner": "^1.0.0",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-node-resolve": "^5.2.0",
     "tslib": "^2.0.1",
     "typescript": "^3.9.7",
-    "path-to-regexp": "^6.1.0",
-    "query-string": "^6.13.1",
     "url-join": "^4.0.1"
   },
   "dependencies": {},
   "husky": {
     "hooks": {
-      "pre-commit": "npm run test:lint && git add ."
+      "pre-commit": "lint-staged"
     }
   }
 }
