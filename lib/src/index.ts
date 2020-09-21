@@ -13,6 +13,7 @@ import UrlParser from './Services/UrlParser'
 import SilentModeService from './Services/SilentModeService'
 import { setHistoryMode } from './Utils/setHistoryMode'
 import { setHashMode } from './Utils/setHashMode'
+import { downloadDynamicComponents } from './Utils/downloadDynamicComponents'
 
 export default class Router {
   private pathService = new PathService()
@@ -108,26 +109,6 @@ export default class Router {
     }
   }
 
-  private async downloadDynamicComponents(matchedRoutes: Route[]) {
-    const nonDynamic = matchedRoutes.map(async (route) => {
-      const isAsync = /(\.then)/i.test(route.component.toString())
-      if (!isAsync) return route
-      else {
-        try {
-          const component = await route.component()
-          route.component = component.default
-          return route
-        } catch (e) {
-          console.warn(
-            `[Easyroute] caught an error while trying to download async component: "${e.message}"`
-          )
-          return route
-        }
-      }
-    })
-    return await Promise.all(nonDynamic)
-  }
-
   private async runAllIndividualHooks(
     matched: Route[],
     to: Route,
@@ -169,7 +150,7 @@ export default class Router {
     if (!allowNext) return
     this.changeUrl(PathService.constructUrl(url, this.base), doPushState)
     this.currentRouteData.setValue(to)
-    this.currentMatched.setValue(await this.downloadDynamicComponents(matched))
+    this.currentMatched.setValue(await downloadDynamicComponents(matched))
     this.afterHook(to, from)
   }
 

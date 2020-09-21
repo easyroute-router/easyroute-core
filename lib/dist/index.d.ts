@@ -16,7 +16,6 @@ export default class Router {
     private getTo;
     private getFrom;
     private changeUrl;
-    private downloadDynamicComponents;
     private runAllIndividualHooks;
     parseRoute(url: string, doPushState?: boolean): Promise<void>;
     navigate(url: string): Promise<void>;

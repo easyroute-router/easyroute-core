@@ -3,9 +3,14 @@ import { ParsedQuery } from 'query-string'
 
 export type RouteComponent = any
 
+export type NamedComponentsSet = {
+  [key: string]: RouteComponent
+}
+
 export interface Route {
   path?: string
   component?: RouteComponent
+  components?: NamedComponentsSet
   name?: string
   regexpPath?: RegExp
   pathKeys?: Key[]
