@@ -1,37 +1,33 @@
-## Welcome to GitHub Pages
+![alt text](https://lyoha.info/assets/img/slim.jpg "Easyroute")
 
-You can use the [editor on GitHub](https://github.com/lyohaplotinka/easyroute-core/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+**Framework-agnostic library for routing JavaScript single-page 
+applications**
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+TL;DR Features:
+* Config-based router (just like Vue Router)
+* Dynamic route matching
+* Nested routes
+* Programmatic navigation
+* Named routes
+* Named views (outlets)
+* Global and individual navigation hooks
+* Hash, history and silent modes
+* Functions to calculate transitions durations
 
-### Markdown
+#### Documentation
+Coming soon
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+#### This is framework-agnostic library
+You can't use it without special bindings for frameworks and libraries.
+This library contains only logic part of router: handling 
+hash or url changes, routes tree generation, 
+resolving current route, etc.
 
-```markdown
-Syntax highlighted code block
+For every framework and library you should have
+router outlet and router link components.
 
-# Header 1
-## Header 2
-### Header 3
+#### Currently available: 
 
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/lyohaplotinka/easyroute-core/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+1. [Svelte Easyroute](https://github.com/lyohaplotinka/svelte-easyroute/) - 
+bindings for Svelte 3 [(NPM)](https://www.npmjs.com/package/svelte-easyroute)
+2. [React Easyroute](https://github.com/lyohaplotinka/react-easyroute/) - bindings for React [(NPM)](https://www.npmjs.com/package/react-easyroute)
