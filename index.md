@@ -1,7 +1,4 @@
-![alt text](https://lyoha.info/assets/img/slim.jpg "Easyroute")
-
-**Framework-agnostic library for routing JavaScript single-page 
-applications**
+## Framework-agnostic library for routing JavaScript single-page applications
 
 TL;DR Features:
 * Config-based router (just like Vue Router)
@@ -13,9 +10,6 @@ TL;DR Features:
 * Global and individual navigation hooks
 * Hash, history and silent modes
 * Functions to calculate transitions durations
-
-#### Documentation
-Coming soon
 
 #### This is framework-agnostic library
 You can't use it without special bindings for frameworks and libraries.
