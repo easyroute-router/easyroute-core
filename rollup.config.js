@@ -17,7 +17,7 @@ export default {
     ],
     output: {
         dir: './lib/dist',
-        format: 'umd',
+        format: 'es',
         name: 'easyroute'
     }
 }

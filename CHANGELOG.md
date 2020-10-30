@@ -1,3 +1,9 @@
+### v1.2.1
+* Removed `url-join` module;
+* `path-to-regexp` replaced with `regexparam`;
+* `tsconfig.json`: target changed do "es2018", module chaged to "es2015";
+* lib file size reduced from 69.7kb to 26.4kb (x2.6)
+
 ### v1.1.0
 * `beforeEnter` hook for each route - individual hooks yeah!
 * named routes support via `components` key in route object;

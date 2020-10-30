@@ -1,11 +1,8 @@
-import { pathToRegexp, Key } from 'path-to-regexp'
 import { Route } from '../types'
 import generateId from '../Utils/IdGenerator'
-import urljoin from 'url-join'
+import regexparam from 'regexparam'
 
 export default class PathService {
-  private readonly pathToRegexp: any = pathToRegexp
-
   private parsePaths(routes: Route[]): Route[] {
     const allRoutes: Route[] = []
     const recursive = (
@@ -41,9 +38,9 @@ export default class PathService {
   public getPathInformation(routes: Route[]): Route[] {
     const allRoutes: Route[] = this.parsePaths(routes)
     return allRoutes.map((route) => {
-      const keysArray: Key[] = []
-      route.regexpPath = this.pathToRegexp(route.path, keysArray)
-      route.pathKeys = keysArray
+      const { pattern, keys } = regexparam(route.path as string)
+      route.regexpPath = pattern
+      route.pathKeys = keys
       return route
     })
   }
@@ -55,6 +52,9 @@ export default class PathService {
 
   public static constructUrl(url: string, base: string) {
     if (!base || url.includes(base)) return url
-    else return `/${urljoin(base, url)}`
+    const strippedBase =
+      base.charAt(base.length - 1) === '/' ? base.slice(0, -1) : base
+    const strippedUrl = url.charAt(0) === '/' ? url.slice(1, url.length) : url
+    return `/${strippedBase}/${strippedUrl}`
   }
 }
