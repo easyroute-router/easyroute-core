@@ -10,7 +10,7 @@ export interface Route {
     components?: NamedComponentsSet;
     name?: string;
     regexpPath?: RegExp;
-    pathKeys?: Key[];
+    pathKeys?: Key[] | string[];
     children?: Route[];
     nestingDepth?: number;
     id?: string;
