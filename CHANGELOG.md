@@ -1,4 +1,4 @@
-### v1.2.1
+### v1.2.0
 * Removed `url-join` module;
 * `path-to-regexp` replaced with `regexparam`;
 * `tsconfig.json`: target changed do "es2018", module chaged to "es2015";
