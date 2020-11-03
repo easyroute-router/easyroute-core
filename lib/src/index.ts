@@ -14,6 +14,9 @@ import SilentModeService from './Services/SilentModeService'
 import { setHistoryMode } from './Utils/setHistoryMode'
 import { setHashMode } from './Utils/setHashMode'
 import { downloadDynamicComponents } from './Utils/downloadDynamicComponents'
+import { isBrowser } from '../utils/index'
+
+const SSR = !isBrowser()
 
 export default class Router {
   private pathService = new PathService()
@@ -35,9 +38,14 @@ export default class Router {
   constructor(private settings: RouterSettings) {
     this.routes = this.pathService.getPathInformation(settings.routes)
     this.parser = new ParserService(this.routes)
-    setTimeout(() => {
-      this.setParser()
-    }, 0)
+    if (!SSR) {
+      setTimeout(() => {
+        this.setParser()
+      }, 0)
+    } else {
+      if (this.mode !== 'history')
+        throw new Error('[Easyroute] SSR only works with "history" router mode')
+    }
   }
 
   private setParser() {
@@ -98,7 +106,7 @@ export default class Router {
     if (this.mode === 'hash') {
       window.location.hash = url
     }
-    if (this.mode === 'history' && doPushState) {
+    if (this.mode === 'history' && doPushState && !SSR) {
       window.history.pushState(
         {
           url
