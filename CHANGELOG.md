@@ -1,3 +1,7 @@
+### v1.2.1
+* Detecting enviroment (for SSR reasons);
+* typed `utils` module.
+
 ### v1.2.0
 * Removed `url-join` module;
 * `path-to-regexp` replaced with `regexparam`;

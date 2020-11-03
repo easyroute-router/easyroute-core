@@ -13,6 +13,7 @@ TL;DR Features:
 * Global and individual navigation hooks
 * Hash, history and silent modes
 * Functions to calculate transitions durations
+* SSR friendly
 
 #### Documentation
 Coming soon
