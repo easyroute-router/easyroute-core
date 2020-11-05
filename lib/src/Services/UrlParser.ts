@@ -1,16 +1,16 @@
-import QueryString, { ParsedQuery } from 'query-string'
-import { Route, RouteObject } from '../types'
+import { parseQuery } from '../utils/parsing/parseQuery'
 
 export default class UrlParser {
-  private static getQueryParams(queryString: string): ParsedQuery {
-    return QueryString.parse(queryString)
+  private static getQueryParams(queryString: string) {
+    return parseQuery(queryString)
   }
 
   private static getPathParams(
     matchedRoute: Route,
     url: string
   ): { [key: string]: string } {
-    let pathValues: string[] = matchedRoute.regexpPath!.exec(url) as string[]
+    let pathValues: string[] = matchedRoute.regexpPath.exec(url) as string[]
+    if (!pathValues) return {}
     pathValues = pathValues.slice(1, pathValues.length)
     const urlParams: { [key: string]: string } = {}
     for (let pathPart = 0; pathPart < pathValues.length; pathPart++) {
@@ -24,10 +24,9 @@ export default class UrlParser {
   public static createRouteObject(
     matchedRoutes: Route[],
     url: string
-  ): RouteObject {
-    const depths: number[] = matchedRoutes.map(
-      (route) => route.nestingDepth as number
-    )
+  ): RouteInfo {
+    matchedRoutes = matchedRoutes.filter(Boolean)
+    const depths: number[] = matchedRoutes.map((route) => route.nestingDepth)
     const maxDepth = Math.max(...depths)
     const currentMatched = matchedRoutes.find(
       (route) => route.nestingDepth === maxDepth

@@ -1,51 +1,38 @@
-import {
-  Route,
-  RouterSettings,
-  HookCommand,
-  Callback,
-  RouteObject,
-  RouterHook
-} from './types'
-import PathService from './Services/PathService'
-import ParserService from './Services/ParserService'
-import Observable from './Utils/Observable'
+import Observable from './utils/observable/Observable'
 import UrlParser from './Services/UrlParser'
 import SilentModeService from './Services/SilentModeService'
-import { setHistoryMode } from './Utils/setHistoryMode'
-import { setHashMode } from './Utils/setHashMode'
-import { downloadDynamicComponents } from './Utils/downloadDynamicComponents'
+import { setHistoryMode } from './utils/configuration/setHistoryMode'
+import { setHashMode } from './utils/configuration/setHashMode'
+import { downloadDynamicComponents } from './utils/code-splitting/downloadDynamicComponents'
 import { isBrowser } from '../utils/index'
+import { parseRoutes } from './utils/parsing/parseRoutes'
+import { getPathInformation } from './utils/path/getPathInformation'
+import { constructUrl } from './utils/path/constructUrl'
 
 const SSR = !isBrowser()
 
 export default class Router {
-  private pathService = new PathService()
   private readonly routes: Route[] = []
-  private parser: ParserService
   private ignoreEvents = false
   private silentControl: SilentModeService | null = null
 
   public beforeEach: RouterHook | null = null
-  public afterEach: Callback | null = null
-
+  public afterEach: RouterHook | null = null
   public currentMatched = new Observable<Route[]>([])
-  public currentRouteData = new Observable<RouteObject>({
+  public currentRouteData = new Observable<RouteInfo>({
     params: {},
     query: {},
     name: ''
   })
 
   constructor(private settings: RouterSettings) {
-    this.routes = this.pathService.getPathInformation(settings.routes)
-    this.parser = new ParserService(this.routes)
-    if (!SSR) {
+    this.routes = getPathInformation(settings.routes)
+    !SSR &&
       setTimeout(() => {
         this.setParser()
       }, 0)
-    } else {
-      if (this.mode !== 'history')
-        throw new Error('[Easyroute] SSR only works with "history" router mode')
-    }
+    if (SSR && this.mode !== 'history')
+      throw new Error('[Easyroute] SSR only works with "history" router mode')
   }
 
   private setParser() {
@@ -63,43 +50,20 @@ export default class Router {
     }
   }
 
-  private getTo(matched: Route[], url: string): RouteObject {
+  private getTo(matched: Route[]): Route {
     const maxDepth = Math.max(
       ...matched.map((route) => route.nestingDepth as number)
     )
-    const currentRoute = matched.find(
-      (route) => route.nestingDepth === maxDepth
-    ) as Route
-    if (!currentRoute)
-      return {
-        params: {},
-        query: {}
-      }
-    return Object.freeze(UrlParser.createRouteObject([currentRoute], url))
+    return matched.find((route) => route.nestingDepth === maxDepth) as Route
   }
 
-  private getFrom(): RouteObject {
-    if (!this.currentMatched.getValue)
-      return {
-        params: {},
-        query: {}
-      }
+  private getFrom(): Route | null {
+    if (!this.currentMatched.getValue) return null
     const current: Route[] = this.currentMatched.getValue
     const maxDepth = Math.max(
       ...current.map((route) => route.nestingDepth as number)
     )
-    const currentRoute = current.find(
-      (route) => route.nestingDepth === maxDepth
-    ) as Route
-    if (!currentRoute)
-      return {
-        params: {},
-        query: {}
-      }
-    const url = this.currentRouteData.getValue.fullPath
-    return Object.freeze(
-      UrlParser.createRouteObject([currentRoute], url as string)
-    )
+    return current.find((route) => route.nestingDepth === maxDepth) ?? null
   }
 
   private changeUrl(url: string, doPushState = true): void {
@@ -119,8 +83,8 @@ export default class Router {
 
   private async runAllIndividualHooks(
     matched: Route[],
-    to: Route,
-    from: Route
+    to: RouteInfo,
+    from: RouteInfo | null
   ) {
     for await (const component of matched) {
       const allow = await this.executeBeforeHook(
@@ -138,36 +102,41 @@ export default class Router {
   public async parseRoute(url: string, doPushState = true) {
     if (this.mode === 'hash' && url.includes('#')) url = url.replace('#', '')
     if (this.mode === 'history' && url.includes('#')) url = url.replace('#', '')
-    const matched = this.parser.parse(url.split('?')[0])
+    const matched = parseRoutes(this.routes, url.split('?')[0])
     if (!matched) return
-    const to = this.getTo(matched, url)
+    const to = this.getTo(matched)
     const from = this.getFrom()
+    const toRouteInfo = UrlParser.createRouteObject([to], url)
+    const fromRouteInfo = from ? UrlParser.createRouteObject([from], url) : null
     if (this.mode === 'silent' && !this.silentControl) {
-      this.silentControl = new SilentModeService(to)
+      this.silentControl = new SilentModeService(toRouteInfo)
     }
     if (this.silentControl && doPushState) {
-      this.silentControl.appendHistory(to)
+      this.silentControl.appendHistory(toRouteInfo)
     }
     const allowNextGlobal = await this.executeBeforeHook(
-      to,
-      from,
+      toRouteInfo,
+      fromRouteInfo,
       this.beforeEach as RouterHook
     )
-    const allowNextLocal = await this.runAllIndividualHooks(matched, to, from)
+    const allowNextLocal = await this.runAllIndividualHooks(
+      matched,
+      toRouteInfo,
+      fromRouteInfo
+    )
     const allowNext = allowNextGlobal && allowNextLocal
     if (!allowNext) return
-    this.changeUrl(PathService.constructUrl(url, this.base), doPushState)
-    this.currentRouteData.setValue(to)
+    this.changeUrl(constructUrl(url, this.base), doPushState)
+    this.currentRouteData.setValue(toRouteInfo)
     this.currentMatched.setValue(await downloadDynamicComponents(matched))
-    this.afterHook(to, from)
+    this.afterHook(toRouteInfo, fromRouteInfo)
   }
 
-  public async navigate(url: string) {
-    this.ignoreEvents = true
-    await this.parseRoute(url)
-  }
-
-  private async executeBeforeHook(to: Route, from: Route, hook: RouterHook) {
+  private async executeBeforeHook(
+    to: RouteInfo,
+    from: RouteInfo | null,
+    hook: RouterHook
+  ) {
     return new Promise(async (resolve) => {
       const next = (command?: HookCommand) => {
         if (command !== null && command !== undefined) {
@@ -185,12 +154,13 @@ export default class Router {
     })
   }
 
-  private afterHook(to: Route, from: Route) {
+  private afterHook(to: RouteInfo, from: RouteInfo | null) {
     this.afterEach && this.afterEach(to, from)
   }
 
-  public async push(data: string) {
-    await this.navigate(data)
+  public async push(url: string) {
+    this.ignoreEvents = true
+    await this.parseRoute(url)
   }
 
   public go(howFar: number) {

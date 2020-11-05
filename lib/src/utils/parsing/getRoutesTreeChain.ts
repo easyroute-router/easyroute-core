@@ -1,5 +1,3 @@
-import { Route } from '../types'
-
 export function getRoutesTreeChain(allRoutes: Route[], currentId: string) {
   const tree: Route[] = []
   let currentSeekingIds: string | null = currentId
