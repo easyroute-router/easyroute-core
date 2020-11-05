@@ -1,16 +1,13 @@
-import { Route, RouterSettings, Callback, RouteObject, RouterHook } from './types';
-import Observable from './Utils/Observable';
+import Observable from './utils/observable/Observable';
 export default class Router {
     private settings;
-    private pathService;
     private readonly routes;
-    private parser;
     private ignoreEvents;
     private silentControl;
     beforeEach: RouterHook | null;
-    afterEach: Callback | null;
+    afterEach: RouterHook | null;
     currentMatched: Observable<Route[]>;
-    currentRouteData: Observable<RouteObject>;
+    currentRouteData: Observable<RouteInfo>;
     constructor(settings: RouterSettings);
     private setParser;
     private getTo;
@@ -18,13 +15,12 @@ export default class Router {
     private changeUrl;
     private runAllIndividualHooks;
     parseRoute(url: string, doPushState?: boolean): Promise<void>;
-    navigate(url: string): Promise<void>;
     private executeBeforeHook;
     private afterHook;
-    push(data: string): Promise<void>;
+    push(url: string): Promise<void>;
     go(howFar: number): void;
     back(): void;
-    get mode(): string;
+    get mode(): RouterMode;
     get base(): string;
-    get currentRoute(): RouteObject;
+    get currentRoute(): RouteInfo;
 }

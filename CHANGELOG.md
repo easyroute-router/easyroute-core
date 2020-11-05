@@ -1,3 +1,10 @@
+### v1.3.0
+* Size reduced from ~26kb raw to ~16kb raw;
+* types are in root dedicated file now;
+* some services are replaced with functions;
+* multiple code optimize; 
+* fixed problem with route base url in history mode.
+
 ### v1.2.1
 * Detecting enviroment (for SSR reasons);
 * typed `utils` module.

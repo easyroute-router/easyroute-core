@@ -1,9 +1,8 @@
-import { RouteObject } from '../types';
 export default class SilentModeService {
     private history;
     private currentHistoryPosition;
-    constructor(firstRoute: RouteObject);
-    appendHistory(data: RouteObject | RouteObject[]): void;
+    constructor(firstRoute: RouteInfo);
+    appendHistory(data: RouteInfo | RouteInfo[]): void;
     back(): string;
     go(howFar: number): string;
 }

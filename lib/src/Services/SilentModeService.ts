@@ -1,14 +1,12 @@
-import { RouteObject } from '../types'
-
 export default class SilentModeService {
-  private history: RouteObject[] = []
+  private history: RouteInfo[] = []
   private currentHistoryPosition = 0
 
-  constructor(firstRoute: RouteObject) {
+  constructor(firstRoute: RouteInfo) {
     this.appendHistory(firstRoute)
   }
 
-  public appendHistory(data: RouteObject | RouteObject[]) {
+  public appendHistory(data: RouteInfo | RouteInfo[]) {
     if (Array.isArray(data)) {
       this.history.push(...data)
       this.currentHistoryPosition += data.length
