@@ -15,7 +15,7 @@ export default class UrlParser {
     const urlParams: { [key: string]: string } = {}
     for (let pathPart = 0; pathPart < pathValues.length; pathPart++) {
       const value = pathValues[pathPart]
-      const key = matchedRoute.pathKeys![pathPart]
+      const key = matchedRoute.pathKeys[pathPart]
       urlParams[String(key)] = value
     }
     return urlParams
