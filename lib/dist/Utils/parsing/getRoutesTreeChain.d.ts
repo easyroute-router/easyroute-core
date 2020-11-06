@@ -1,1 +1,1 @@
-export declare function getRoutesTreeChain(allRoutes: Route[], currentId: string): Route[];
+export declare function getRoutesTreeChain(allRoutes: Route[], currentRoute: Route): Route[];

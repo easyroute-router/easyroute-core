@@ -1,21 +1,14 @@
-export function getRoutesTreeChain(allRoutes: Route[], currentId: string) {
-  const tree: Route[] = []
-  let currentSeekingIds: string | null = currentId
-  const currentRoute = allRoutes.find((route) => route.id === currentSeekingIds)
+export function getRoutesTreeChain(allRoutes: Route[], currentRoute: Route) {
+  if (!currentRoute) return []
+  const tree: Route[] = [currentRoute]
+  let currentSeekingId: string | null = currentRoute.parentId
   do {
-    const currentRoute = allRoutes.find(
-      (route) => route.id === currentSeekingIds
+    const seed = allRoutes.find(
+      (seedRoute) => seedRoute.id === currentSeekingId
     )
-    if (currentRoute) {
-      const seed = allRoutes.find((route) => route.id === currentRoute.parentId)
-      if (seed) {
-        tree.push(seed)
-        currentSeekingIds = seed.id as string
-      } else {
-        currentSeekingIds = null
-      }
-    } else break
-  } while (currentSeekingIds)
-  currentRoute && tree.push(currentRoute)
+    seed && tree.push(seed)
+    currentSeekingId = seed?.parentId ?? null
+  } while (currentSeekingId)
+
   return tree
 }

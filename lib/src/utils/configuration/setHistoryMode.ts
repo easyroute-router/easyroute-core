@@ -1,12 +1,13 @@
 import { stripBase } from '../path/stripBase'
+import { deleteLastSlash } from '../path/deleteLastSlash'
 
 export function setHistoryMode() {
   this.parseRoute(
     stripBase(
-      `${window.location.pathname}${window.location.search}`,
+      `${deleteLastSlash(window.location.pathname)}/${window.location.search}`,
       this.base
     ),
-    false
+    true
   )
   window.addEventListener('popstate', (ev) => {
     ev.state
