@@ -3,14 +3,14 @@ import { uniqueByIdAndNestingDepth } from './uniqueByIdAndNestingDepth'
 
 export function parseRoutes(routes: Route[], url: string) {
   const allMatched: Route[] = []
-  routes
-    .filter((route) => route.regexpPath.test(url))
-    .forEach((route) =>
-      allMatched.push(...getRoutesTreeChain(routes, route.id))
-    )
+  routes.forEach(
+    (route) =>
+      route.regexpPath.test(url) &&
+      allMatched.push(...getRoutesTreeChain(routes, route))
+  )
   const unique = uniqueByIdAndNestingDepth(allMatched)
-  if (!unique.length) {
-    console.error('[Easyroute] No routes matched')
-  }
+  // if (!unique.length) {
+  //   console.error('[Easyroute] No routes matched')
+  // }
   return unique
 }

@@ -1,11 +1,3 @@
-declare type RouteComponent = any
-
-declare type NextCallback = (arg?: boolean | string) => void
-
-declare type ParsedQueryObject = {
-    [key: string]: string | string[] | null
-}
-
 declare module 'regexparam'
 
 /**
@@ -71,6 +63,18 @@ declare interface RouteMultiComponent extends RouteBasic {
 }
 
 declare type Route = RouteSingleComponent | RouteMultiComponent
+
+/**
+ * Misc declarations
+ */
+
+declare type RouteComponent = any
+
+declare type NextCallback = (arg?: boolean | string) => void
+
+declare type ParsedQueryObject = {
+    [key: string]: string | string[] | null
+}
 
 declare type RouterMode = 'hash' | 'history' | 'silent'
 

@@ -1,4 +1,4 @@
-import { generateId } from '../generateId'
+import { generateId } from '../misc/generateId'
 
 export default class Observable<T> {
   private _subscribersQueue: { [key: string]: ObservableListener<T> } = {}
