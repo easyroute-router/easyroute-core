@@ -77,7 +77,7 @@ export default class Router {
         {
           url
         },
-        'Test',
+        url,
         url
       )
     }
