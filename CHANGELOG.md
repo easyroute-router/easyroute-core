@@ -1,3 +1,8 @@
+### v1.3.1
+* Base url feature fixed;
+* path sanitizing for routes;
+* a bit of refactoring (size reducing and speed up).
+
 ### v1.3.0
 * Size reduced from ~26kb raw to ~16kb raw;
 * types are in root dedicated file now;
