@@ -8,9 +8,7 @@ import { isBrowser } from '../utils/index'
 import { parseRoutes } from './utils/parsing/parseRoutes'
 import { getPathInformation } from './utils/path/getPathInformation'
 import { constructUrl } from './utils/path/constructUrl'
-import { deleteLastSlash } from './utils/path/deleteLastSlash'
 import { deleteEdgeSlashes } from './utils/path/deleteEdgeSlashes'
-import set = Reflect.set
 
 const SSR = !isBrowser()
 
