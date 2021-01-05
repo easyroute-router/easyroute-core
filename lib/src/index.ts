@@ -10,6 +10,7 @@ import { getPathInformation } from './utils/path/getPathInformation'
 import { constructUrl } from './utils/path/constructUrl'
 import { deleteLastSlash } from './utils/path/deleteLastSlash'
 import { deleteEdgeSlashes } from './utils/path/deleteEdgeSlashes'
+import set = Reflect.set
 
 const SSR = !isBrowser()
 
@@ -28,6 +29,10 @@ export default class Router {
   })
 
   constructor(private settings: RouterSettings) {
+    if (!settings.mode) {
+      this.settings.mode = 'hash'
+      console.warn('[Easyroute] Router mode is not defined: fallback to "hash"')
+    }
     this.routes = getPathInformation(settings.routes)
     !SSR &&
       setTimeout(() => {

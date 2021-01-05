@@ -1,3 +1,6 @@
+### v1.3.2
+* Fallback to "hash" mode by default.
+
 ### v1.3.1
 * Base url feature fixed;
 * path sanitizing for routes;
