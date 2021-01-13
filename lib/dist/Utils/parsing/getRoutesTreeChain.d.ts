@@ -1,1 +1,1 @@
-export declare function getRoutesTreeChain(allRoutes: Route[], currentRoute: Route): Route[];
+export declare function getRoutesTreeChain(allRoutes: RouteMatchData[], currentRoute: RouteMatchData): RouteMatchData[];
