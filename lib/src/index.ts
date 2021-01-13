@@ -6,7 +6,7 @@ import { setHashMode } from './utils/configuration/setHashMode';
 import { downloadDynamicComponents } from './utils/code-splitting/downloadDynamicComponents';
 import { isBrowser } from '../utils/index';
 import { parseRoutes } from './utils/parsing/parseRoutes';
-import { getPathInformation } from './utils/path/getPathInformation';
+import { getMatchData } from './utils/parsing/getMatchData';
 import { constructUrl } from './utils/path/constructUrl';
 import { deleteEdgeSlashes } from './utils/path/deleteEdgeSlashes';
 
@@ -34,7 +34,7 @@ export default class Router {
         '[Easyroute] Router mode is not defined: fallback to "hash"'
       );
     }
-    this.routes = getPathInformation(settings.routes);
+    this.routes = getMatchData(settings.routes);
     !SSR &&
       setTimeout(() => {
         this.setParser();
@@ -68,8 +68,8 @@ export default class Router {
   }
 
   private getFrom(): RouteMatchData | null {
-    if (!this.currentMatched.getValue) return null;
     const current: RouteMatchData[] = this.currentMatched.getValue;
+    if (!current) return null;
     const maxDepth = Math.max(
       ...current.map((route) => route.nestingDepth as number)
     );
@@ -110,9 +110,7 @@ export default class Router {
   }
 
   public async parseRoute(url: string, doPushState = true) {
-    if (this.mode === 'hash' && url.includes('#')) url = url.replace('#', '');
-    if (this.mode === 'history' && url.includes('#'))
-      url = url.replace('#', '');
+    url = url.replace(/^#/, '');
     const matched = parseRoutes(this.routes, url.split('?')[0]);
     if (!matched) return;
     const to = this.getTo(matched);

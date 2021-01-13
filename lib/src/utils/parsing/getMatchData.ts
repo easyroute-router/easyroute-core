@@ -1,8 +1,8 @@
+import regexparam from 'regexparam';
+import { deleteEdgeSlashes } from '../path/deleteEdgeSlashes';
 import { generateId } from '../misc/generateId';
-import { deleteLastSlash } from './deleteLastSlash';
-import { deleteEdgeSlashes } from './deleteEdgeSlashes';
 
-export function parsePaths(
+export function getMatchData(
   arr: any[],
   parentId: string | null = null,
   nestingDepth = 0,
@@ -12,19 +12,22 @@ export function parsePaths(
     const componentPart: RouteComponent | RouteComponent[] =
       (val.component && { component: val.component }) ||
       (val.components && { components: val.components });
+    const path =
+      deleteEdgeSlashes(parentPath) + '/' + deleteEdgeSlashes(val.path);
+    const { pattern, keys } = regexparam(path);
     const newRoute: RouteMatchData = {
       ...val,
       ...componentPart,
       parentId,
       nestingDepth,
-      path: deleteEdgeSlashes(parentPath) + '/' + deleteEdgeSlashes(val.path),
+      path,
       id: generateId(),
-      regexpPath: /.+/,
-      pathKeys: []
+      regexpPath: pattern,
+      pathKeys: keys
     };
     if (Array.isArray(val.children)) {
       acc = acc.concat(
-        parsePaths(
+        getMatchData(
           (newRoute.children ?? []) as any[],
           newRoute.id,
           nestingDepth + 1,

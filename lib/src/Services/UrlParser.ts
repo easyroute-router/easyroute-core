@@ -26,8 +26,9 @@ export default class UrlParser {
     url: string
   ): RouteInfoData {
     matchedRoutes = matchedRoutes.filter(Boolean);
-    const depths: number[] = matchedRoutes.map((route) => route.nestingDepth);
-    const maxDepth = Math.max(...depths);
+    const maxDepth = Math.max(
+      ...matchedRoutes.map((route) => route.nestingDepth)
+    );
     const currentMatched = matchedRoutes.find(
       (route) => route.nestingDepth === maxDepth
     );
