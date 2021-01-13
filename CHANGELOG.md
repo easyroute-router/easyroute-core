@@ -1,5 +1,6 @@
 * Types simplified;
 * forced semicolon;
+* refactored, extra modules deleted;
 
 ### v1.3.2
 * Fallback to "hash" mode by default;
