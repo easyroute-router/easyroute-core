@@ -1,8 +1,8 @@
 export default class SilentModeService {
     private history;
     private currentHistoryPosition;
-    constructor(firstRoute: RouteInfo);
-    appendHistory(data: RouteInfo | RouteInfo[]): void;
+    constructor(firstRoute: RouteInfoData);
+    appendHistory(data: RouteInfoData | RouteInfoData[]): void;
     back(): string;
     go(howFar: number): string;
 }

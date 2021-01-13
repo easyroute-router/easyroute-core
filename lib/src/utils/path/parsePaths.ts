@@ -1,6 +1,6 @@
-import { generateId } from '../misc/generateId'
-import { deleteLastSlash } from './deleteLastSlash'
-import { deleteEdgeSlashes } from './deleteEdgeSlashes'
+import { generateId } from '../misc/generateId';
+import { deleteLastSlash } from './deleteLastSlash';
+import { deleteEdgeSlashes } from './deleteEdgeSlashes';
 
 export function parsePaths(
   arr: any[],
@@ -8,11 +8,11 @@ export function parsePaths(
   nestingDepth = 0,
   parentPath = '/'
 ): any[] {
-  return arr.reduce((acc: Route[], val: RouteConfig) => {
+  return arr.reduce((acc: RouteMatchData[], val: RouteDefineData) => {
     const componentPart: RouteComponent | RouteComponent[] =
       (val.component && { component: val.component }) ||
-      (val.components && { components: val.components })
-    const newRoute: Route = {
+      (val.components && { components: val.components });
+    const newRoute: RouteMatchData = {
       ...val,
       ...componentPart,
       parentId,
@@ -21,17 +21,17 @@ export function parsePaths(
       id: generateId(),
       regexpPath: /.+/,
       pathKeys: []
-    }
+    };
     if (Array.isArray(val.children)) {
       acc = acc.concat(
         parsePaths(
-          newRoute.children as any[],
+          (newRoute.children ?? []) as any[],
           newRoute.id,
           nestingDepth + 1,
           newRoute.path
         )
-      )
+      );
     }
-    return acc.concat(newRoute)
-  }, [])
+    return acc.concat(newRoute);
+  }, []);
 }

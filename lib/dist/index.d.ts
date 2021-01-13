@@ -6,8 +6,8 @@ export default class Router {
     private silentControl;
     beforeEach: RouterHook | null;
     afterEach: RouterHook | null;
-    currentMatched: Observable<Route[]>;
-    currentRouteData: Observable<RouteInfo>;
+    currentMatched: Observable<RouteMatchData[]>;
+    currentRouteData: Observable<RouteInfoData>;
     constructor(settings: RouterSettings);
     private setParser;
     private getTo;
@@ -22,5 +22,5 @@ export default class Router {
     back(): void;
     get mode(): RouterMode;
     get base(): string;
-    get currentRoute(): RouteInfo;
+    get currentRoute(): RouteInfoData;
 }

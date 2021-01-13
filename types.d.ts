@@ -1,68 +1,39 @@
 declare module 'regexparam'
 
 /**
- * RouteConfig: what we pass in routes[] array
+ * Data to define route
  */
-
-declare interface RouteConfigBasic {
+declare interface RouteDefineData {
     path: string
+    component?: RouteComponent
+    components?: { [key: string]: RouteComponent }
     name?: string
-    beforeEnter?: BeforeHook
-    children?: RouteConfig[]
+    meta?: any
+    beforeEnter?: RouterHook
+    children?: RouteDefineData
 }
-
-declare interface RouteConfigSingleComponent extends RouteConfigBasic {
-    component: RouteComponent
-    components: never
-}
-
-declare interface RouteConfigMultiComponent extends RouteConfigBasic {
-    components: { [key: string]: RouteComponent }
-    component: never
-}
-
-declare type RouteConfig = RouteConfigSingleComponent | RouteConfigMultiComponent
 
 /**
- * RouteInfo: what is in currentRoute
+ * Parsed route data
  */
+declare interface RouteMatchData extends RouteDefineData {
+    nestingDepth: number
+    id: string
+    parentId: string
+    regexpPath: RegExp
+    pathKeys: string[]
+}
 
-declare type RouteInfo = {
+/**
+ * Data to send into currentRoute and hooks
+ */
+declare interface RouteInfoData {
+    fullPath: string
     params: { [key: string]: string }
     query: ParsedQueryObject
     name?: string
-    fullPath?: string
-    meta?: any
+    meta?: string
 }
-
-/**
- * Route: what we get when parse RouteConfig
- */
-
-declare interface RouteBasic {
-    path: string
-    regexpPath: RegExp
-    pathKeys: string[]
-    id: string
-    parentId: string | null
-    nestingDepth: number
-    meta?: any
-    beforeEnter?: BeforeHook
-    children?: Route[]
-    name?: string
-}
-
-declare interface RouteSingleComponent extends RouteBasic {
-    component: RouteComponent
-    components: never
-}
-
-declare interface RouteMultiComponent extends RouteBasic {
-    component: never
-    components: { [key: string]: RouteComponent }
-}
-
-declare type Route = RouteSingleComponent | RouteMultiComponent
 
 /**
  * Misc declarations
@@ -80,7 +51,7 @@ declare type RouterMode = 'hash' | 'history' | 'silent'
 
 declare type RouterSettings = {
     mode: RouterMode
-    routes: RouteConfig[]
+    routes: RouteDefineData[]
     base?: string
 }
 
