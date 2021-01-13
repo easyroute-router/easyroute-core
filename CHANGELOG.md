@@ -1,3 +1,6 @@
+* Types simplified;
+* forced semicolon;
+
 ### v1.3.2
 * Fallback to "hash" mode by default;
 * fixed dependabot alert.
