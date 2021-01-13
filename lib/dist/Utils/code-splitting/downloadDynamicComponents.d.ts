@@ -1,1 +1,1 @@
-export declare function downloadDynamicComponents(matchedRoutes: Route[]): Promise<Route[]>;
+export declare function downloadDynamicComponents(matchedRoutes: RouteMatchData[]): Promise<RouteMatchData[]>;

@@ -1,1 +1,1 @@
-export const deleteFirstSlash = (url: string) => url.replace(/^\//, '')
+export const deleteFirstSlash = (url: string) => url.replace(/^\//, '');

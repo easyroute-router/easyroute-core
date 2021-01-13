@@ -1,1 +1,1 @@
-export declare function getPathInformation(routes: RouteConfig[]): Route[];
+export declare function getPathInformation(routes: RouteDefineData[]): RouteMatchData[];

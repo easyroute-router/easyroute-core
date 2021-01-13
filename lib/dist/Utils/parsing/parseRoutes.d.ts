@@ -1,1 +1,1 @@
-export declare function parseRoutes(routes: Route[], url: string): Route[];
+export declare function parseRoutes(routes: RouteMatchData[], url: string): RouteMatchData[];

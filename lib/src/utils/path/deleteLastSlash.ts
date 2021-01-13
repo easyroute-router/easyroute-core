@@ -1,1 +1,1 @@
-export const deleteLastSlash = (url: string) => url.replace(/\/$/, '')
+export const deleteLastSlash = (url: string) => url.replace(/\/$/, '');

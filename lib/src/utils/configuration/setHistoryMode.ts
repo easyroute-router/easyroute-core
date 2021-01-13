@@ -1,5 +1,5 @@
-import { stripBase } from '../path/stripBase'
-import { deleteLastSlash } from '../path/deleteLastSlash'
+import { stripBase } from '../path/stripBase';
+import { deleteLastSlash } from '../path/deleteLastSlash';
 
 export function setHistoryMode() {
   this.parseRoute(
@@ -8,10 +8,10 @@ export function setHistoryMode() {
       this.base
     ),
     true
-  )
+  );
   window.addEventListener('popstate', (ev) => {
     ev.state
       ? this.parseRoute(stripBase(ev.state.url, this.base), false)
-      : this.parseRoute('/', false)
-  })
+      : this.parseRoute('/', false);
+  });
 }

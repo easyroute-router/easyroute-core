@@ -1,1 +1,1 @@
-export declare function uniqueByIdAndNestingDepth(routesArray: Route[]): Route[];
+export declare function uniqueByIdAndNestingDepth(routesArray: RouteMatchData[]): RouteMatchData[];
