@@ -1,4 +1,5 @@
 import { parseQuery } from '../utils/parsing/parseQuery';
+import { getMaxDepth } from '../utils/misc/getMaxDepth';
 
 export default class UrlParser {
   private static getQueryParams(queryString: string) {
@@ -26,11 +27,8 @@ export default class UrlParser {
     url: string
   ): RouteInfoData {
     matchedRoutes = matchedRoutes.filter(Boolean);
-    const maxDepth = Math.max(
-      ...matchedRoutes.map((route) => route.nestingDepth)
-    );
     const currentMatched = matchedRoutes.find(
-      (route) => route.nestingDepth === maxDepth
+      (route) => route.nestingDepth === getMaxDepth(matchedRoutes)
     );
     const [pathString, queryString]: string[] = url.split('?');
     if (currentMatched) {
