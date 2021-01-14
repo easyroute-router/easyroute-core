@@ -9,6 +9,7 @@ import { parseRoutes } from './utils/parsing/parseRoutes';
 import { getMatchData } from './utils/parsing/getMatchData';
 import { constructUrl } from './utils/path/constructUrl';
 import { deleteEdgeSlashes } from './utils/path/deleteEdgeSlashes';
+import { getMaxDepth } from './utils/misc/getMaxDepth';
 
 const SSR = !isBrowser();
 
@@ -59,21 +60,18 @@ export default class Router {
   }
 
   private getTo(matched: RouteMatchData[]): RouteMatchData {
-    const maxDepth = Math.max(
-      ...matched.map((route) => route.nestingDepth as number)
-    );
     return matched.find(
-      (route) => route.nestingDepth === maxDepth
+      (route) => route.nestingDepth === getMaxDepth(matched)
     ) as RouteMatchData;
   }
 
   private getFrom(): RouteMatchData | null {
     const current: RouteMatchData[] = this.currentMatched.getValue;
     if (!current) return null;
-    const maxDepth = Math.max(
-      ...current.map((route) => route.nestingDepth as number)
+    return (
+      current.find((route) => route.nestingDepth === getMaxDepth(current)) ??
+      null
     );
-    return current.find((route) => route.nestingDepth === maxDepth) ?? null;
   }
 
   private changeUrl(url: string, doPushState = true): void {
