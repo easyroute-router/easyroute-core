@@ -1,3 +1,6 @@
+### v1.3.4
+* Rollback to full routes tree search;
+
 ### v1.3.3
 * Types simplified;
 * forced semicolon;
