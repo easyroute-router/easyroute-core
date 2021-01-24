@@ -1,3 +1,6 @@
+### v1.3.4-1
+* fix: broken url set if slash trailing enabled.
+
 ### v1.3.4
 * Rollback to full routes tree search;
 * added `omitTrailingSlash` key in router settings (#12);
