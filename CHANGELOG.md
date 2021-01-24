@@ -1,6 +1,7 @@
 ### v1.3.4
 * Rollback to full routes tree search;
-* added `omitTrailingSlash` key in router settings (#12).
+* added `omitTrailingSlash` key in router settings (#12);
+* fix types path in package.json.
 
 ### v1.3.3
 * Types simplified;
