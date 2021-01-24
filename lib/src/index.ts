@@ -17,6 +17,7 @@ export default class Router {
   private readonly routes: RouteMatchData[] = [];
   private ignoreEvents = false;
   private silentControl: SilentModeService | null = null;
+  private currentUrl = '';
 
   public beforeEach: RouterHook | null = null;
   public afterEach: RouterHook | null = null;
@@ -75,6 +76,7 @@ export default class Router {
   }
 
   private changeUrl(url: string, doPushState = true): void {
+    this.currentUrl = url;
     if (this.mode === 'hash') {
       window.location.hash = url;
     }
@@ -115,7 +117,7 @@ export default class Router {
     const from = this.getFrom();
     const toRouteInfo = UrlParser.createRouteObject([to], url);
     const fromRouteInfo = from
-      ? UrlParser.createRouteObject([from], url)
+      ? UrlParser.createRouteObject([from], this.currentUrl)
       : null;
     if (this.mode === 'silent' && !this.silentControl) {
       this.silentControl = new SilentModeService(toRouteInfo);

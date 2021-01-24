@@ -1,3 +1,6 @@
+### v1.3.5
+* fix: wrong `from` route data in hooks.
+
 ### v1.3.4-1
 * fix: broken url set if slash trailing enabled.
 

@@ -4,6 +4,7 @@ export default class Router {
     private readonly routes;
     private ignoreEvents;
     private silentControl;
+    private currentUrl;
     beforeEach: RouterHook | null;
     afterEach: RouterHook | null;
     currentMatched: Observable<RouteMatchData[]>;
