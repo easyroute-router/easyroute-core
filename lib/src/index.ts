@@ -135,7 +135,10 @@ export default class Router {
     );
     const allowNext = allowNextGlobal && allowNextLocal;
     if (!allowNext) return;
-    this.changeUrl(constructUrl(url, this.base), doPushState);
+    this.changeUrl(
+      constructUrl(url, this.base, this.settings.omitTrailingSlash),
+      doPushState
+    );
     this.currentRouteData.setValue(toRouteInfo);
     this.currentMatched.setValue(await downloadDynamicComponents(matched));
     this.afterHook(toRouteInfo, fromRouteInfo);
