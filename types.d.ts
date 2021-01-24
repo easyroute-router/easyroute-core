@@ -53,6 +53,7 @@ declare type RouterSettings = {
     mode: RouterMode
     routes: RouteDefineData[]
     base?: string
+    omitTrailingSlash?: boolean
 }
 
 declare type RouterHook = (to: RouteInfo, from: RouteInfo | null, next?: NextCallback) => void | Promise<void>

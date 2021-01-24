@@ -24,7 +24,7 @@ export function parseRoutes(routes: RouteMatchData[], url: string) {
       allMatched.push(...getRoutesTreeChain(routes, route));
     }
   });
-  const match = allMatched.filter((route) => {
+  return allMatched.filter((route) => {
     if (
       !usedIds.includes(route.id) &&
       !usedDepths.includes(route.nestingDepth)
@@ -35,5 +35,4 @@ export function parseRoutes(routes: RouteMatchData[], url: string) {
     }
     return false;
   });
-  return match;
 }
