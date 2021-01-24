@@ -1,4 +1,4 @@
-![alt text](https://lyoha.info/assets/img/slim.jpg "Easyroute")
+![alt text](https://shared.lyoha.info/pictures/easyroute/cover_thin.png "Easyroute")
 
 **Framework-agnostic library for routing JavaScript single-page 
 applications**
