@@ -1,3 +1,4 @@
+import { ObservableListener } from '../../types';
 export default class Observable<T> {
     private value;
     private _subscribersQueue;

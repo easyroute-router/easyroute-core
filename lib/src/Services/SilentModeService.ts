@@ -1,3 +1,5 @@
+import { RouteInfoData } from '../types';
+
 export default class SilentModeService {
   private history: RouteInfoData[] = [];
   private currentHistoryPosition = 0;

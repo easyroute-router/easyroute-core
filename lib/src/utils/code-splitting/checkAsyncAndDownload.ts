@@ -1,3 +1,5 @@
+import { RouteComponent } from '../../types';
+
 export async function checkAsyncAndDownload(component: RouteComponent) {
   const isAsync = /(\.then)/i.test(component.toString());
   if (!isAsync) return component;

@@ -10,6 +10,13 @@ import { getMatchData } from './utils/parsing/getMatchData';
 import { constructUrl } from './utils/path/constructUrl';
 import { deleteEdgeSlashes } from './utils/path/deleteEdgeSlashes';
 import { getMaxDepth } from './utils/misc/getMaxDepth';
+import {
+  HookCommand,
+  RouteInfoData,
+  RouteMatchData,
+  RouterHook,
+  RouterSettings
+} from './types';
 
 const SSR = !isBrowser();
 
@@ -18,9 +25,10 @@ export default class Router {
   private ignoreEvents = false;
   private silentControl: SilentModeService | null = null;
   private currentUrl = '';
+  private beforeEachHooks: RouterHook[] = [];
+  private afterEachHooks: RouterHook[] = [];
 
-  public beforeEach: RouterHook | null = null;
-  public afterEach: RouterHook | null = null;
+  public transitionOutHooks: RouterHook[] = [];
   public currentMatched = new Observable<RouteMatchData[]>([]);
   public currentRouteData = new Observable<RouteInfoData>({
     params: {},
@@ -91,20 +99,15 @@ export default class Router {
     }
   }
 
-  private async runAllIndividualHooks(
-    matched: RouteMatchData[],
+  private async runHooksArray(
+    hooks: RouterHook[],
     to: RouteInfoData,
-    from: RouteInfoData | null
+    from: RouteInfoData | null,
+    type: 'before' | 'after' | 'transition'
   ) {
-    for await (const component of matched) {
-      const allow = await this.executeBeforeHook(
-        to,
-        from,
-        component.beforeEnter as RouterHook
-      );
-      if (!allow) {
-        return false;
-      }
+    for await (const hook of hooks) {
+      const allow = await this.executeHook(to, from, hook, type);
+      if (!allow) return false;
     }
     return true;
   }
@@ -125,15 +128,20 @@ export default class Router {
     if (this.silentControl && doPushState) {
       this.silentControl.appendHistory(toRouteInfo);
     }
-    const allowNextGlobal = await this.executeBeforeHook(
+    const allowNextGlobal = await this.runHooksArray(
+      this.beforeEachHooks,
       toRouteInfo,
       fromRouteInfo,
-      this.beforeEach as RouterHook
+      'before'
     );
-    const allowNextLocal = await this.runAllIndividualHooks(
-      matched,
+    const allowNextLocal = await this.runHooksArray(
+      matched.reduce((t: RouterHook[], c) => {
+        c.beforeEnter && t.push(c.beforeEnter);
+        return t;
+      }, []),
       toRouteInfo,
-      fromRouteInfo
+      fromRouteInfo,
+      'before'
     );
     const allowNext = allowNextGlobal && allowNextLocal;
     if (!allowNext) return;
@@ -143,14 +151,21 @@ export default class Router {
     );
     this.currentRouteData.setValue(toRouteInfo);
     this.currentMatched.setValue(await downloadDynamicComponents(matched));
-    this.afterHook(toRouteInfo, fromRouteInfo);
+    this.runHooksArray(
+      this.afterEachHooks,
+      toRouteInfo,
+      fromRouteInfo,
+      'after'
+    );
   }
 
-  private async executeBeforeHook(
+  private async executeHook(
     to: RouteInfoData,
     from: RouteInfoData | null,
-    hook: RouterHook
+    hook: RouterHook,
+    type: 'after' | 'before' | 'transition'
   ) {
+    if (type === 'after') return hook(to, from);
     return new Promise(async (resolve) => {
       const next = (command?: HookCommand) => {
         if (command !== null && command !== undefined) {
@@ -168,10 +183,6 @@ export default class Router {
     });
   }
 
-  private afterHook(to: RouteInfoData, from: RouteInfoData | null) {
-    this.afterEach && this.afterEach(to, from);
-  }
-
   public async push(url: string) {
     this.ignoreEvents = true;
     await this.parseRoute(url);
@@ -187,6 +198,18 @@ export default class Router {
 
   public back() {
     this.go(-1);
+  }
+
+  public beforeEach(hook: RouterHook) {
+    this.beforeEachHooks.push(hook);
+  }
+
+  public afterEach(hook: RouterHook) {
+    this.afterEachHooks.push(hook);
+  }
+
+  public transitionOut(hook: RouterHook) {
+    this.transitionOutHooks.push(hook);
   }
 
   get mode() {

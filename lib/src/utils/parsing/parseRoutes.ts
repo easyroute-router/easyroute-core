@@ -1,3 +1,5 @@
+import { RouteMatchData } from '../../types';
+
 function getRoutesTreeChain(
   allRoutes: RouteMatchData[],
   currentRoute: RouteMatchData

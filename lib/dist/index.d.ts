@@ -1,12 +1,14 @@
 import Observable from './utils/observable/Observable';
+import { RouteInfoData, RouteMatchData, RouterHook, RouterSettings } from './types';
 export default class Router {
     private settings;
     private readonly routes;
     private ignoreEvents;
     private silentControl;
     private currentUrl;
-    beforeEach: RouterHook | null;
-    afterEach: RouterHook | null;
+    private beforeEachHooks;
+    private afterEachHooks;
+    transitionOutHooks: RouterHook[];
     currentMatched: Observable<RouteMatchData[]>;
     currentRouteData: Observable<RouteInfoData>;
     constructor(settings: RouterSettings);
@@ -14,14 +16,16 @@ export default class Router {
     private getTo;
     private getFrom;
     private changeUrl;
-    private runAllIndividualHooks;
+    private runHooksArray;
     parseRoute(url: string, doPushState?: boolean): Promise<void>;
-    private executeBeforeHook;
-    private afterHook;
+    private executeHook;
     push(url: string): Promise<void>;
     go(howFar: number): void;
     back(): void;
-    get mode(): RouterMode;
+    beforeEach(hook: RouterHook): void;
+    afterEach(hook: RouterHook): void;
+    transitionOut(hook: RouterHook): void;
+    get mode(): import("./types").RouterMode;
     get base(): string;
     get currentRoute(): RouteInfoData;
 }

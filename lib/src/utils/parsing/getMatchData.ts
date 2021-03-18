@@ -1,6 +1,7 @@
-import regexparam from 'regexparam';
 import { deleteEdgeSlashes } from '../path/deleteEdgeSlashes';
 import { generateId } from '../misc/generateId';
+import { RouteComponent, RouteDefineData, RouteMatchData } from '../../types';
+import regexparam from 'regexparam';
 
 export function getMatchData(
   arr: any[],
