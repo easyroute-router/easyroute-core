@@ -10,6 +10,7 @@ export interface RouteDefineData {
     name?: string;
     meta?: any;
     beforeEnter?: RouterHook;
+    transitionOut?: RouterHook;
     children?: RouteDefineData;
 }
 /**

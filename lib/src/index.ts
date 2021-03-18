@@ -36,6 +36,7 @@ export default class Router {
     name: '',
     fullPath: ''
   });
+  public currentRouteFromData = new Observable<RouteInfoData | null>(null);
 
   constructor(private settings: RouterSettings) {
     if (!settings.mode) {
@@ -99,19 +100,6 @@ export default class Router {
     }
   }
 
-  private async runHooksArray(
-    hooks: RouterHook[],
-    to: RouteInfoData,
-    from: RouteInfoData | null,
-    type: 'before' | 'after' | 'transition'
-  ) {
-    for await (const hook of hooks) {
-      const allow = await this.executeHook(to, from, hook, type);
-      if (!allow) return false;
-    }
-    return true;
-  }
-
   public async parseRoute(url: string, doPushState = true) {
     url = url.replace(/^#/, '');
     const matched = parseRoutes(this.routes, url.split('?')[0]);
@@ -150,6 +138,7 @@ export default class Router {
       doPushState
     );
     this.currentRouteData.setValue(toRouteInfo);
+    this.currentRouteFromData.setValue(fromRouteInfo);
     this.currentMatched.setValue(await downloadDynamicComponents(matched));
     this.runHooksArray(
       this.afterEachHooks,
@@ -210,6 +199,19 @@ export default class Router {
 
   public transitionOut(hook: RouterHook) {
     this.transitionOutHooks.push(hook);
+  }
+
+  public async runHooksArray(
+    hooks: RouterHook[],
+    to: RouteInfoData,
+    from: RouteInfoData | null,
+    type: 'before' | 'after' | 'transition'
+  ) {
+    for await (const hook of hooks) {
+      const allow = await this.executeHook(to, from, hook, type);
+      if (!allow) return false;
+    }
+    return true;
   }
 
   get mode() {

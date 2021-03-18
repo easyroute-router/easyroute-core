@@ -11,12 +11,12 @@ export default class Router {
     transitionOutHooks: RouterHook[];
     currentMatched: Observable<RouteMatchData[]>;
     currentRouteData: Observable<RouteInfoData>;
+    currentRouteFromData: Observable<RouteInfoData | null>;
     constructor(settings: RouterSettings);
     private setParser;
     private getTo;
     private getFrom;
     private changeUrl;
-    private runHooksArray;
     parseRoute(url: string, doPushState?: boolean): Promise<void>;
     private executeHook;
     push(url: string): Promise<void>;
@@ -25,6 +25,7 @@ export default class Router {
     beforeEach(hook: RouterHook): void;
     afterEach(hook: RouterHook): void;
     transitionOut(hook: RouterHook): void;
+    runHooksArray(hooks: RouterHook[], to: RouteInfoData, from: RouteInfoData | null, type: 'before' | 'after' | 'transition'): Promise<boolean>;
     get mode(): import("./types").RouterMode;
     get base(): string;
     get currentRoute(): RouteInfoData;
