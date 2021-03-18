@@ -1,4 +1,5 @@
 import { generateId } from '../misc/generateId';
+import { ObservableListener } from '../../types';
 
 export default class Observable<T> {
   private _subscribersQueue: { [key: string]: ObservableListener<T> } = {};

@@ -13,7 +13,7 @@ export default {
         }),
         typescript({
             "declaration": true,
-            "outDir": "./lib/dist"
+            "outDir": "./lib/dist",
         }),
         resolve({ extensions: ['.js', '.ts'] }),
         commonjs({ extensions: ['.js', '.ts'] })

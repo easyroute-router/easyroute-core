@@ -1,3 +1,4 @@
+import { RouteInfoData, RouteMatchData } from '../types';
 export default class UrlParser {
     private static getQueryParams;
     private static getPathParams;

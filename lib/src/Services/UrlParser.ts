@@ -1,5 +1,6 @@
 import { parseQuery } from '../utils/parsing/parseQuery';
 import { getMaxDepth } from '../utils/misc/getMaxDepth';
+import { RouteInfoData, RouteMatchData } from '../types';
 
 export default class UrlParser {
   private static getQueryParams(queryString: string) {

@@ -16,11 +16,11 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "lib": ["es5", "es6", "dom", "dom.iterable"]
+    "moduleResolution": "Node",
+    "lib": ["es5", "es6", "dom", "dom.iterable"],
   },
   "include": [
     "lib/src/**/*",
-    "types.d.ts"
   ],
   "exclude": [
     "node_modules",

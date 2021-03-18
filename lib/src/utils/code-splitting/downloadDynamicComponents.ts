@@ -1,4 +1,5 @@
 import { checkAsyncAndDownload } from './checkAsyncAndDownload';
+import { RouteMatchData } from '../../types';
 
 export async function downloadDynamicComponents(
   matchedRoutes: RouteMatchData[]

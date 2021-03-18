@@ -1,3 +1,13 @@
+### v1.4.0
+* **breaking**: removed setters `beforeEach` and 
+  `afterEach` for global hooks, please pass 
+  callbacks to methods with the same names 
+  (for example, `router.beforeEach((to, from, next) => ...)`;
+* feat: introducing `router.transitionOut` hooks 
+  to handle operations after the exit animation 
+  has finished;
+* refactor: better types declaration.
+
 ### v1.3.5
 * fix: wrong `from` route data in hooks.
 
