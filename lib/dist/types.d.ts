@@ -8,10 +8,10 @@ export interface RouteDefineData {
         [key: string]: RouteComponent;
     };
     name?: string;
-    meta?: any;
+    meta?: Record<string, unknown>;
     beforeEnter?: RouterHook;
     transitionOut?: RouterHook;
-    children?: RouteDefineData;
+    children?: RouteDefineData[];
 }
 /**
  * Parsed route data
@@ -33,7 +33,7 @@ export interface RouteInfoData {
     };
     query: ParsedQueryObject;
     name?: string;
-    meta?: string;
+    meta?: Record<string, unknown>;
 }
 /**
  * Misc declarations

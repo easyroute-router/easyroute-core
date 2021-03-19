@@ -6,10 +6,10 @@ export interface RouteDefineData {
   component?: RouteComponent;
   components?: { [key: string]: RouteComponent };
   name?: string;
-  meta?: any;
+  meta?: Record<string, unknown>;
   beforeEnter?: RouterHook;
   transitionOut?: RouterHook;
-  children?: RouteDefineData;
+  children?: RouteDefineData[];
 }
 
 /**
@@ -31,7 +31,7 @@ export interface RouteInfoData {
   params: { [key: string]: string };
   query: ParsedQueryObject;
   name?: string;
-  meta?: string;
+  meta?: Record<string, unknown>;
 }
 
 /**

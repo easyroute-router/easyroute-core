@@ -1,3 +1,7 @@
+### v1.4.1
+* fix: types for `meta` and `children` property;
+* removed macrotask planning in the constructor.
+
 ### v1.4.0
 * **breaking**: removed setters `beforeEach` and 
   `afterEach` for global hooks, please pass 

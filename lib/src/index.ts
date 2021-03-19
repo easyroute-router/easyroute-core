@@ -46,15 +46,13 @@ export default class Router {
       );
     }
     this.routes = getMatchData(settings.routes);
-    !SSR &&
-      setTimeout(() => {
-        this.setParser();
-      }, 0);
+    this.setParser();
     if (SSR && this.mode !== 'history')
       throw new Error('[Easyroute] SSR only works with "history" router mode');
   }
 
   private setParser() {
+    if (SSR) return;
     switch (this.mode) {
       case 'silent':
         this.parseRoute(`${window.location.pathname}${window.location.search}`);
