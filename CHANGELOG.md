@@ -1,3 +1,6 @@
+### v1.4.3
+* refactor: better code-split check (vite compatibility)
+
 ### v1.4.2
 * fix: planning microtask for first route 
 parsing (broken initial hooks in last release)
