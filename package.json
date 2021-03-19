@@ -1,6 +1,6 @@
 {
   "name": "easyroute-core",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "Framework-agnostic router for JavaScript single-page applications in style of Vue Router",
   "main": "lib/dist/index.js",
   "types": "lib/dist/index.d.ts",
