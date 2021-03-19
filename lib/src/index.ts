@@ -4,7 +4,7 @@ import SilentModeService from './Services/SilentModeService';
 import { setHistoryMode } from './utils/configuration/setHistoryMode';
 import { setHashMode } from './utils/configuration/setHashMode';
 import { downloadDynamicComponents } from './utils/code-splitting/downloadDynamicComponents';
-import { isBrowser } from '../utils/index';
+import { delay, isBrowser } from '../utils/index';
 import { parseRoutes } from './utils/parsing/parseRoutes';
 import { getMatchData } from './utils/parsing/getMatchData';
 import { constructUrl } from './utils/path/constructUrl';
@@ -53,18 +53,22 @@ export default class Router {
 
   private setParser() {
     if (SSR) return;
-    switch (this.mode) {
-      case 'silent':
-        this.parseRoute(`${window.location.pathname}${window.location.search}`);
-        break;
-      case 'history':
-        setHistoryMode.apply(this);
-        break;
-      case 'hash':
-      default:
-        setHashMode.apply(this);
-        break;
-    }
+    delay(0).then(() => {
+      switch (this.mode) {
+        case 'silent':
+          this.parseRoute(
+            `${window.location.pathname}${window.location.search}`
+          );
+          break;
+        case 'history':
+          setHistoryMode.apply(this);
+          break;
+        case 'hash':
+        default:
+          setHashMode.apply(this);
+          break;
+      }
+    });
   }
 
   private getTo(matched: RouteMatchData[]): RouteMatchData {

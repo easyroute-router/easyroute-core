@@ -1,3 +1,7 @@
+### v1.4.2
+* fix: planning microtask for first route 
+parsing (broken initial hooks in last release)
+
 ### v1.4.1
 * fix: types for `meta` and `children` property;
 * removed macrotask planning in the constructor.
