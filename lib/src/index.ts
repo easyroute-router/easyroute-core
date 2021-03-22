@@ -14,7 +14,8 @@ import {
   HookCommand,
   RouteInfoData,
   RouteMatchData,
-  RouterHook,
+  BeforeRouterHook,
+  AfterRouterHook,
   RouterSettings
 } from './types';
 
@@ -25,10 +26,10 @@ export default class Router {
   private ignoreEvents = false;
   private silentControl: SilentModeService | null = null;
   private currentUrl = '';
-  private beforeEachHooks: RouterHook[] = [];
-  private afterEachHooks: RouterHook[] = [];
+  private beforeEachHooks: BeforeRouterHook[] = [];
+  private afterEachHooks: AfterRouterHook[] = [];
 
-  public transitionOutHooks: RouterHook[] = [];
+  public transitionOutHooks: BeforeRouterHook[] = [];
   public currentMatched = new Observable<RouteMatchData[]>([]);
   public currentRouteData = new Observable<RouteInfoData>({
     params: {},
@@ -125,7 +126,7 @@ export default class Router {
       'before'
     );
     const allowNextLocal = await this.runHooksArray(
-      matched.reduce((t: RouterHook[], c) => {
+      matched.reduce((t: BeforeRouterHook[], c) => {
         c.beforeEnter && t.push(c.beforeEnter);
         return t;
       }, []),
@@ -153,10 +154,10 @@ export default class Router {
   private async executeHook(
     to: RouteInfoData,
     from: RouteInfoData | null,
-    hook: RouterHook,
+    hook: BeforeRouterHook | AfterRouterHook,
     type: 'after' | 'before' | 'transition'
   ) {
-    if (type === 'after') return hook(to, from);
+    if (type === 'after') return (hook as AfterRouterHook)(to, from);
     return new Promise(async (resolve) => {
       const next = (command?: HookCommand) => {
         if (command !== null && command !== undefined) {
@@ -191,20 +192,20 @@ export default class Router {
     this.go(-1);
   }
 
-  public beforeEach(hook: RouterHook) {
+  public beforeEach(hook: BeforeRouterHook) {
     this.beforeEachHooks.push(hook);
   }
 
-  public afterEach(hook: RouterHook) {
+  public afterEach(hook: AfterRouterHook) {
     this.afterEachHooks.push(hook);
   }
 
-  public transitionOut(hook: RouterHook) {
+  public transitionOut(hook: BeforeRouterHook) {
     this.transitionOutHooks.push(hook);
   }
 
   public async runHooksArray(
-    hooks: RouterHook[],
+    hooks: BeforeRouterHook[] | AfterRouterHook[],
     to: RouteInfoData,
     from: RouteInfoData | null,
     type: 'before' | 'after' | 'transition'

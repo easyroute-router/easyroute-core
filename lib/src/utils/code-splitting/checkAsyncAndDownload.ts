@@ -1,7 +1,9 @@
 import { RouteComponent } from '../../types';
 
 export async function checkAsyncAndDownload(component: RouteComponent) {
-  const isAsync = /(\.then|import\(.+\))/i.test(component.toString());
+  const isAsync = /(\.then|import\(.+\)|vitePreload|_+import_+)/i.test(
+    component.toString()
+  );
   if (!isAsync) return component;
   else {
     try {

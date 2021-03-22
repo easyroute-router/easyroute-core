@@ -1,3 +1,8 @@
+### v1.4.4
+* feat: updated async component check regexp
+  (vite compatibility again);
+* refactor: different types for before and after hooks.
+
 ### v1.4.3
 * refactor: better code-split check (vite compatibility)
 

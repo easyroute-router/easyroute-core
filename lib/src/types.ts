@@ -7,8 +7,8 @@ export interface RouteDefineData {
   components?: { [key: string]: RouteComponent };
   name?: string;
   meta?: Record<string, unknown>;
-  beforeEnter?: RouterHook;
-  transitionOut?: RouterHook;
+  beforeEnter?: BeforeRouterHook;
+  transitionOut?: AfterRouterHook;
   children?: RouteDefineData[];
 }
 
@@ -55,10 +55,15 @@ export type RouterSettings = {
   omitTrailingSlash?: boolean;
 };
 
-export type RouterHook = (
+export type BeforeRouterHook = (
   to: RouteInfoData,
   from: RouteInfoData | null,
-  next?: NextCallback
+  next: NextCallback
+) => void | Promise<void>;
+
+export type AfterRouterHook = (
+  to: RouteInfoData,
+  from: RouteInfoData | null
 ) => void | Promise<void>;
 
 export type HookCommand = boolean | string;

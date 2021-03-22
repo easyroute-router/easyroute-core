@@ -9,8 +9,8 @@ export interface RouteDefineData {
     };
     name?: string;
     meta?: Record<string, unknown>;
-    beforeEnter?: RouterHook;
-    transitionOut?: RouterHook;
+    beforeEnter?: BeforeRouterHook;
+    transitionOut?: AfterRouterHook;
     children?: RouteDefineData[];
 }
 /**
@@ -50,6 +50,7 @@ export declare type RouterSettings = {
     base?: string;
     omitTrailingSlash?: boolean;
 };
-export declare type RouterHook = (to: RouteInfoData, from: RouteInfoData | null, next?: NextCallback) => void | Promise<void>;
+export declare type BeforeRouterHook = (to: RouteInfoData, from: RouteInfoData | null, next: NextCallback) => void | Promise<void>;
+export declare type AfterRouterHook = (to: RouteInfoData, from: RouteInfoData | null) => void | Promise<void>;
 export declare type HookCommand = boolean | string;
 export declare type ObservableListener<T> = (value: T) => void;
